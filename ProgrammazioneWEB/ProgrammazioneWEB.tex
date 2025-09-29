@@ -1,0 +1,78 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage[italian]{babel}
+\usepackage[a4paper, margin=75pt]{geometry}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+\graphicspath{{images/}}
+
+\titleformat{\section}
+  [block]
+  {\raggedleft\LARGE\bfseries}
+  {\textcolor{gray}{\scalebox{5}{\thesection}}}
+  {0pt}
+  {\\[3pt]}
+
+\titlespacing*{\section}
+  {0pt}   % rientro sinistro
+  {0pt}   % spazio prima della sezione
+  {30pt}  % spazio dopo la sezione
+
+\begin{document}
+    % --- Copertina ---
+    \begin{titlepage}
+        \centering
+
+        % --- Logo Sapienza ---
+        \includegraphics[width=0.95\textwidth]{logo_sapienza.png}
+        
+        \vspace*{\stretch{0.2}}
+        
+        % --- Dati Sapienza ---
+        {\LARGE "Sapienza" Università di Roma}\\[3pt]
+        {\Large Ingegneria dell'Informazione, Informatica e Statistica}\\[3pt]
+        {\large Dipartimento di Informatica}\\[3pt]
+        
+        % --- Spazio vuoto ---
+        \vspace*{\stretch{1}}
+        
+        % --- Titolo ---
+        \hrulefill\\
+        \vspace{15pt}
+        \textbf{\huge Programmazione WEB}\\
+        \vspace{7pt}
+        \hrulefill\\
+        
+        % --- Spazio vuoto ---
+        \vspace*{\stretch{2}}
+        
+        % --- Autore ---
+        \textit{\Large Autore}\\[3pt]
+        {\Large Vincenzo Bova}\\
+        
+        % --- Spazio vuoto ---
+        \vspace*{\stretch{1}}
+
+        % --- Data ---
+        {\large A.A. 2025/2026}\\
+    \end{titlepage}
+
+    % --- Indice ---
+    \newpage
+    \tableofcontents
+
+    % --- Introduzione a Git ---
+    \newpage
+    \section{Introduzione a Git}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.5\textwidth]{introduzione_a_git/no_git_example.png}
+        \caption{Scenario in assenza di Git}
+        \label{fig:no_git_example}
+    \end{figure}
+
+
+
+\end{document}
