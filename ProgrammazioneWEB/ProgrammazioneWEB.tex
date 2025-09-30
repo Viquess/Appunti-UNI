@@ -5,8 +5,10 @@
 \usepackage[a4paper, margin=75pt]{geometry}
 \usepackage{titlesec}
 \usepackage{xcolor}
+\usepackage{enumitem}
 
 \graphicspath{{images/}}
+\setlist{itemsep=2pt}
 
 \titleformat{\section}
   [block]
@@ -66,13 +68,19 @@
     % --- Introduzione a Git ---
     \newpage
     \section{Introduzione a Git}
+    Durante lo sviluppo di un progetto c'è spesso la necessità di effettuare revisioni, correzioni o modifiche ai file che lo compongono.
     \begin{figure}[h]
         \centering
         \includegraphics[width=0.5\textwidth]{introduzione_a_git/no_git_example.png}
-        \caption{Scenario in assenza di Git}
+        \caption{Esempio tramite la creazione di nuovi file}
         \label{fig:no_git_example}
-    \end{figure}
-
-
-
+    \end{figure}\\
+    Gestire ciò utilizzando diversi file, tuttavia, comporta evidenti problemi:
+    \begin{itemize}
+      \item \textbf{Duplicazione del contenuto:} che rende il sistema inefficiente e aumenta la difficoltà nel mantenere integrità;
+      \item \textbf{Assenza di Naming Convention:} che rende impossibile risalire ad uno storico delle modifiche;
+      \item \textbf{Autori incerti};
+      \item ...
+    \end{itemize}
+    Per ovviare a ciò sono stati creati i \textbf{sistemi di versionamento}.
 \end{document}
