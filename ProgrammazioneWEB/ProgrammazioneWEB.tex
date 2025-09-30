@@ -1,15 +1,61 @@
 \documentclass[12pt]{article}
 
 \usepackage{graphicx}
-\usepackage[italian]{babel}
-\usepackage[a4paper, margin=75pt]{geometry}
 \usepackage{titlesec}
 \usepackage{xcolor}
 \usepackage{enumitem}
+\usepackage{subcaption}
+\usepackage[most]{tcolorbox}
+\usepackage[italian]{babel}
+\usepackage[a4paper, margin=75pt]{geometry}
 \usepackage[colorlinks=true, linkcolor=black]{hyperref}
 
 \graphicspath{{images/}}
 \setlist{itemsep=2pt}
+\definecolor{greenpastel}{RGB}{180, 230, 180}
+\tcbset{
+  myboxstyle/.style={
+    colback=white,
+    coltitle=black,
+    fonttitle=\bfseries,
+    boxrule=1pt,
+    rounded corners,
+    enhanced,
+    attach boxed title to top left={xshift=5mm},
+    boxed title style={
+        size=fbox,
+        colback=greenpastel,
+        boxrule=0pt,
+        sharp corners,
+        enhanced,
+        frame code={
+            % Disegno trapezio con base superiore più stretta
+            \path[fill=greenpastel, rounded corners=1mm]
+                ([xshift=0mm]frame.north west) -- 
+                ([xshift=-1mm]frame.north east) -- 
+                ([xshift=2mm]frame.south east) -- 
+                ([xshift=-3mm]frame.south west) -- cycle;
+        },
+        interior hidden
+    }
+  }
+}
+
+\newcounter{definition}[section]
+\renewcommand{\thedefinition}{
+  \thesection
+  \ifnum\value{subsection}>0 .\arabic{subsection}\fi
+  \ifnum\value{subsubsection}>0 .\arabic{subsubsection}\fi
+  .\arabic{definition}
+}
+\newtcolorbox{definition}[1][]{
+  myboxstyle,
+  colframe=greenpastel,
+  boxed title style={colback=greenpastel},
+  before title={\refstepcounter{definition}},
+  title={Definizione \thedefinition: #1}
+}
+
 
 \titleformat{\section}
   [block]
@@ -69,19 +115,62 @@
     % --- Introduzione a Git ---
     \newpage
     \section{Introduzione a Git}
+    \subsection{Sistemi di versionamento}
     Durante lo sviluppo di un progetto c'è spesso la necessità di effettuare revisioni, correzioni o modifiche ai file che lo compongono.
     \begin{figure}[h]
         \centering
         \includegraphics[width=0.5\textwidth]{introduzione_a_git/no_git_example.png}
-        \caption{Esempio tramite la creazione di nuovi file}
-        \label{fig:no_git_example}
+        \caption{Sviluppo di un progetto mediante la creazione di nuovi file}
     \end{figure}\\
-    Gestire ciò utilizzando diversi file, tuttavia, comporta evidenti problemi:
+    Gestire ciò creando ogni volta nuovi file, tuttavia, comporta evidenti problemi:
     \begin{itemize}
       \item \textbf{Duplicazione del contenuto:} che rende il sistema inefficiente e aumenta la difficoltà nel mantenere integrità;
       \item \textbf{Assenza di Naming Convention:} che rende impossibile risalire ad uno storico delle modifiche;
       \item \textbf{Autori incerti};
       \item ...
     \end{itemize}
-    Per ovviare a ciò sono stati creati i \textbf{sistemi di versionamento}.
+    \begin{samepage}
+      Per ovviare a ciò sono stati creati i \textbf{sistemi di versionamento} (git, csv, mercurial, svn...), i quali offrono vari benefici:
+      \begin{itemize}
+        \item \textbf{Gestione delle versioni:} il sistema si occupa automaticamente di etichettare le varie versioni in modo consistente;
+        \item \textbf{Tracciamento delle mofiche:} è possibile accedere ad uno storico delle modifiche effettuate;
+        \item \textbf{Presenza di metadati:} ogni modifica ha un autore, una data...;
+        \item \textbf{Creazione di linee di sviluppo parallele:} è possibile creare una versione parallela del codice per non modificare la versione principale, e poi riunirle integrando i cambiamenti;
+        \item \textbf{Sincronizzazione tra computer:} il sistema consente di mantenere il progetto allineato tra più computer.
+      \end{itemize}
+    \end{samepage}
+
+    \subsection{Git}
+    Git è un sistema di versionamento distribuito e veloce, creato nel 2005 e capace di gestire progetti di grandi dimensioni.
+    Si basa su un design semplice e utilizza DAG (\textit{Directed Acyclic Graph}) e Merkle trees come strutture dati.
+    \begin{definition}[Repository]
+      È un insieme di commit, branch e tag.\\
+      Per semplicità assumiamo che un progetto equivale ad un repository.
+    \end{definition}
+    \begin{definition}[Working copy]
+      È un insieme di file tracciati nella copia locale.\\
+      Un nuovo file non sarà ancora tracciato e bisognerà aggiungerlo.\\
+      Quando aggiorniamo i file (\textit{update}), stiamo aggiornando la working copy.
+    \end{definition}
+    
+    \subsubsection{Commit}
+    Un commit è un'istantanea del repository in un determinato momento.\\
+    Viene identificato dallo \textbf{SHA1} del commit stesso e contiene diversi campi:
+    \begin{itemize}
+      \item data+autore, data+commiter
+      \item commento \textbf{obbligatorio}
+      \item 0,1 o più genitori
+      \item tree: hash di tutti i file nel commit
+    \end{itemize}
+    In particolare il commit può contenere un sottoinsieme delle modifiche (anche ad un singolo file), le quali defono essere aggiunte alla staging area dei cambiamenti.
+    \begin{figure}[h]
+      \begin{subfigure}{0.5\textwidth}
+        \includegraphics[width=0.9\linewidth]{introduzione_a_git/git_commit.png}
+        \caption{Serie di commit ad un progetto}
+      \end{subfigure}
+      \begin{subfigure}{0.5\textwidth}
+        \includegraphics[width=0.9\linewidth]{introduzione_a_git/git_commit_staging.png}
+        \caption{Serie di commit ad un progetto}
+      \end{subfigure}
+    \end{figure}
 \end{document}
