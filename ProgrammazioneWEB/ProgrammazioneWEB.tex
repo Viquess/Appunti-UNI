@@ -5,6 +5,8 @@
 \usepackage{xcolor}
 \usepackage{enumitem}
 \usepackage{subcaption}
+\usepackage{float}
+\usepackage{placeins}
 \usepackage[most]{tcolorbox}
 \usepackage[italian]{babel}
 \usepackage[a4paper, margin=75pt]{geometry}
@@ -117,11 +119,10 @@
     \section{Introduzione a Git}
     \subsection{Sistemi di versionamento}
     Durante lo sviluppo di un progetto c'è spesso la necessità di effettuare revisioni, correzioni o modifiche ai file che lo compongono.
-    \begin{figure}[h]
+    \begin{figure}[H]
         \centering
         \includegraphics[width=0.5\textwidth]{introduzione_a_git/no_git_example.png}
-        \caption{Sviluppo di un progetto mediante la creazione di nuovi file}
-    \end{figure}\\
+    \end{figure}
     Gestire ciò creando ogni volta nuovi file, tuttavia, comporta evidenti problemi:
     \begin{itemize}
       \item \textbf{Duplicazione del contenuto:} che rende il sistema inefficiente e aumenta la difficoltà nel mantenere integrità;
@@ -157,20 +158,55 @@
     Un commit è un'istantanea del repository in un determinato momento.\\
     Viene identificato dallo \textbf{SHA1} del commit stesso e contiene diversi campi:
     \begin{itemize}
-      \item data+autore, data+commiter
+      \item data + autore, data + commiter
       \item commento \textbf{obbligatorio}
       \item 0,1 o più genitori
       \item tree: hash di tutti i file nel commit
     \end{itemize}
-    In particolare il commit può contenere un sottoinsieme delle modifiche (anche ad un singolo file), le quali defono essere aggiunte alla staging area dei cambiamenti.
-    \begin{figure}[h]
-      \begin{subfigure}{0.5\textwidth}
-        \includegraphics[width=0.9\linewidth]{introduzione_a_git/git_commit.png}
-        \caption{Serie di commit ad un progetto}
-      \end{subfigure}
-      \begin{subfigure}{0.5\textwidth}
-        \includegraphics[width=0.9\linewidth]{introduzione_a_git/git_commit_staging.png}
-        \caption{Serie di commit ad un progetto}
-      \end{subfigure}
+    \begin{minipage}{\textwidth}
+      In particolare il commit può contenere un sottoinsieme delle modifiche (anche ad un singolo file), le quali devono essere aggiunte alla staging area dei cambiamenti.
+      \begin{figure}[H]
+        \centering
+        \begin{subfigure}{0.49\textwidth}
+          \centering
+          \includegraphics[height=4cm]{introduzione_a_git/git_commit.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.49\textwidth}
+          \centering
+          \includegraphics[height=4cm]{introduzione_a_git/git_commit_staging.png}
+        \end{subfigure}
+      \end{figure}
+    \end{minipage}
+
+    \subsubsection{Branch}
+    Un branch è una linea di sviluppo, composta da un insieme ordinato di commit collegati in un DAG, il quale inizia dal primo commit del repository e punta all'ultimo commit.\\
+    Grazie ai branch è possibile \textbf{lavorare parallelamente} a più versioni del progetto.
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.7\textwidth]{introduzione_a_git/branch.png}
     \end{figure}
+
+    \subsubsection{HEAD}
+    L'HEAD è un puntatore alla posizione attuale rispetto alla storia del repository e può essere aggiornato tramite il comando \textit{checkout}.\\
+    Solitamente l'HEAD punta ad un branch o ad un tag, qualora invece puntasse ad un commit si parlerebbe di \textbf{Detached HEAD}. Quando ci si trova in questo stato i commit fatti non vengono inseriti in alcun branch, rischiando quindi di andare persi.
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.7\textwidth]{introduzione_a_git/branch_head.png}
+    \end{figure}
+
+    \subsubsection{Tag}
+    Un tag è un'etichetta per un commit e viene solitamente usato per segnare versioni importandi di un progetto (e.g. \textit{v1.0.0}, \textit{release-2025-09}).
+
+    \subsubsection{Merge}
+    Il merge è un'operazione che fonde i cambiamenti tra due branch, facendo in modo che la destinazione contenga entrambi i cambiamenti mentre l'origine rimanga immutata.\\
+    Può avvenire mediante tre strategie:
+    \begin{itemize}
+      \item \textbf{Fast forward:} quando il branch di destinazione non ha commit successivi rispetto a quello che si vuole unire e il sistema sposta semplicemente il puntatore in avanti;
+      \item \textbf{Merge commit:} quando i branch hanno sviluppi indipendenti e il sistema crea un nuovo commit con due genitori;
+      \item \textbf{Rebase:} il sistema ricrea ogni commit non in comune tra i due branch, mantendo così una storia lineare.
+    \end{itemize}
+  
+    \subsection{Comandi Git}
+    
 \end{document}
