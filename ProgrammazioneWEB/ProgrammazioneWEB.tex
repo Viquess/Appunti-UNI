@@ -189,5 +189,22 @@
     \end{itemize}
   
     \subsection{Comandi Git}
-    
+    Per interfacciarsi con Git vengono messi a disposizione dal sistema diversi comandi:
+    \begin{itemize}
+      \item \texttt{git init:} inizializza un repository creando una subdirectory .git all'interno della directory corrente; 
+      \item \texttt{git status:} mostra lo stato attuale del repository (file tracciati, file modificati, file nello staging, file non tracciati);
+      \item \texttt{git diff:} mostra le differenze tra working directory, staging e commit;
+      \item \texttt{git add <file>:} aggiunge un file alla staging area (\texttt{git add .} per aggiungere tutti i file modificati);
+      \item \texttt{git commit -m "Messaggio":} crea un commit, registrando le modifiche aggiunte con \texttt{git add} nella cronologia del repository;
+      \item \texttt{git log:} mostra la lista dei commit effettuati;
+      \item \texttt{git branch <nome>:} crea un nuovo branch con il nome indicato, ma \textbf{non ci si sposta};
+      \item \texttt{git checkout <nome>:} passa ad un branch esistente spostando l'HEAD;
+      \item \texttt{git checkout -b <nome>:} crea un nuovo branch con il nome indicato, per poi \textbf{spostarsi} su quest'ultimo (\texttt{git checkout -b <nome>} = \texttt{git branch <nome>} + \texttt{git checkout <nome>});
+      \item \texttt{git fetch:} scarica gli aggiornamenti (commit, branch) dal repository remoto, \textbf{senza merge} col tuo branch;
+      \item \texttt{git merge <branch>:} unisce la cronologia del branch in cui ci si trova con quella del branch specificato;
+      \item \texttt{git pull:} scarica gli aggiornamenti (commit, branch) dal repository remoto, \textbf{facendo merge} col tuo branch (\texttt{git pull} = \texttt{git fetch} + \texttt{git merge});
+      \item \texttt{git push:} invia i commit locali al repository remoto, aggiornando il branch remoto corrispondente; 
+    \end{itemize}
+
+    \subsection{Git flow}
 \end{document}
