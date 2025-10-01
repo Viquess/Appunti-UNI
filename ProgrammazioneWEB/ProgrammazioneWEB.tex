@@ -1,56 +1,6 @@
 \documentclass[12pt]{article}
 
-\usepackage{graphicx}
-\usepackage{titlesec}
-\usepackage{xcolor}
-\usepackage{enumitem}
-\usepackage{subcaption}
-\usepackage{float}
-\usepackage{placeins}
-\usepackage[most]{tcolorbox}
-\usepackage[italian]{babel}
-\usepackage[a4paper, margin=75pt]{geometry}
-\usepackage[colorlinks=true, linkcolor=black]{hyperref}
-
-\graphicspath{{images/}}
-\setlist{itemsep=2pt}
-\definecolor{greenpastel}{RGB}{180, 230, 180}
-\tcbset{
-  myboxstyle/.style={
-    colback=white,
-    coltitle=black,
-    fonttitle=\bfseries,
-    colframe=greenpastel
-  }
-}
-
-\newcounter{definition}[section]
-\renewcommand{\thedefinition}{
-  \thesection
-  \ifnum\value{subsection}>0 .\arabic{subsection}\fi
-  \ifnum\value{subsubsection}>0 .\arabic{subsubsection}\fi
-  .\arabic{definition}
-}
-\newtcolorbox{definition}[1][]{
-  myboxstyle,
-  colframe=greenpastel,
-  boxed title style={colback=greenpastel},
-  before title={\refstepcounter{definition}},
-  title={Definizione \thedefinition: #1}
-}
-
-
-\titleformat{\section}
-  [block]
-  {\raggedleft\LARGE\bfseries}
-  {\textcolor{gray}{\scalebox{5}{\thesection}}}
-  {0pt}
-  {\\[3pt]}
-
-\titlespacing*{\section}
-  {0pt}   % rientro sinistro
-  {0pt}   % spazio prima della sezione
-  {30pt}  % spazio dopo la sezione
+\input{../packages/preamble.tex}
 
 \begin{document}
     % --- Copertina ---
