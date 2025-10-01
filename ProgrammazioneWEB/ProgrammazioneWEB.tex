@@ -20,26 +20,7 @@
     colback=white,
     coltitle=black,
     fonttitle=\bfseries,
-    boxrule=1pt,
-    rounded corners,
-    enhanced,
-    attach boxed title to top left={xshift=5mm},
-    boxed title style={
-        size=fbox,
-        colback=greenpastel,
-        boxrule=0pt,
-        sharp corners,
-        enhanced,
-        frame code={
-            % Disegno trapezio con base superiore più stretta
-            \path[fill=greenpastel, rounded corners=1mm]
-                ([xshift=0mm]frame.north west) -- 
-                ([xshift=-1mm]frame.north east) -- 
-                ([xshift=2mm]frame.south east) -- 
-                ([xshift=-3mm]frame.south west) -- cycle;
-        },
-        interior hidden
-    }
+    colframe=greenpastel
   }
 }
 
