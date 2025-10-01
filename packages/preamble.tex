@@ -5,6 +5,7 @@
 \usepackage{subcaption}
 \usepackage{float}
 \usepackage{placeins}
+\usepackage[none]{hyphenat}
 \usepackage[most]{tcolorbox}
 \usepackage[italian]{babel}
 \usepackage[a4paper, margin=75pt]{geometry}
@@ -23,12 +24,7 @@
 }
 
 \newcounter{definition}[section]
-\renewcommand{\thedefinition}{
-  \thesection
-  \ifnum\value{subsection}>0 .\arabic{subsection}\fi
-  \ifnum\value{subsubsection}>0 .\arabic{subsubsection}\fi
-  .\arabic{definition}
-}
+\renewcommand{\thedefinition}{\thesection.\arabic{definition}}
 \newtcolorbox{definition}[1][]{
   myboxstyle,
   colframe=greenpastel,

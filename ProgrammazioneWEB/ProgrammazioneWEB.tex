@@ -80,9 +80,8 @@
       Per semplicità assumiamo che un progetto equivale ad un repository.
     \end{definition}
     \begin{definition}[Working copy]
-      È un insieme di file tracciati nella copia locale.\\
-      Un nuovo file non sarà ancora tracciato e bisognerà aggiungerlo.\\
-      Quando aggiorniamo i file (\textit{update}), stiamo aggiornando la working copy.
+      È l'insieme dei file tracciati nella copia locale del repository.\\
+      Quando creiamo un nuovo file non sarà ancora tracciato e bisognerà quindi aggiungerlo, quando invece modifichiamo un file già tracciato (\textit{update}) stiamo aggiornando la working copy.
     \end{definition}
     
     \subsubsection{Commit}
@@ -129,13 +128,45 @@
     \subsubsection{Tag}
     Un tag è un'etichetta per un commit e viene solitamente usato per segnare versioni importandi di un progetto (e.g. \textit{v1.0.0}, \textit{release-2025-09}).
 
+    \subsubsection{Remotes}
+    Sono dei riferimenti ai branch in repository remoti. Il nome predefinito è \texttt{origin} e vengono visualizzati nel formato \texttt{<remote>/<branch>} (es. \texttt{origin/main}).\\
+    In particolare definiamo come \textbf{tracking branch} un branch locale che tiene traccia di un branch remoto, facilitando l'uso dei comandi \texttt{git push} e \texttt{git pull}.
+
     \subsubsection{Merge}
-    Il merge è un'operazione che fonde i cambiamenti tra due branch, facendo in modo che la destinazione contenga entrambi i cambiamenti mentre l'origine rimanga immutata.\\
-    Può avvenire mediante tre strategie:
+    Il merge è un'operazione che fonde i cambiamenti apportati in due branch distinti, facendo in modo che il branch di destinazione contenga entrambi i cambiamenti e che quello di origine rimanga immutato.\\
+    Quando questa operazione viene eseguita tramite comando, Git determina in maniera autonoma quale tipo di merge sia più appropriato, basandosi sulla relazione tra i due branch e sullo storico dei loro commit.\\
+    In particolare esistono quattro tipologie di merge:
     \begin{itemize}
-      \item \textbf{Fast forward:} quando il branch di destinazione non ha commit successivi rispetto a quello che si vuole unire e il sistema sposta semplicemente il puntatore in avanti;
-      \item \textbf{Merge commit:} quando i branch hanno sviluppi indipendenti e il sistema crea un nuovo commit con due genitori;
-      \item \textbf{Rebase:} il sistema ricrea ogni commit non in comune tra i due branch, mantendo così una storia lineare.
+      \item \textbf{Fast forward:}
+        \begin{itemize}
+          \item \textit{Condizione:} il branch di origine è diretto discendente di HEAD.
+          \item \textit{Azione:} Git sposta solo il puntatore di HEAD in avanti. 
+          \item \textit{Risultato:} nessun nuovo merge commit. 
+        \end{itemize}
+      \item \textbf{Merge commit:}
+        \begin{itemize}
+          \item \textit{Condizione:} i branch divergono e hanno sviluppi indipendenti;
+          \item \textit{Azione:} Git combina le modifiche dei due branch, creando un nuovo commit;
+          \item \textit{Risultato:} viene creato un merge commit con due genitori;
+        \end{itemize}
+      \item \textbf{Rebase:}
+        \begin{itemize}
+          \item \textit{Condizione:} si vuole aggiorare un branch basandolo su un altro, riscrivendo lo storico;
+          \item \textit{Azione:} Git ricrea ogni commit non in comune tra i due branch; 
+          \item \textit{Risultato:} la storia del branch diventa lineare, senza merge commit intermedi. 
+        \end{itemize}
+      \item \textbf{Three way:}
+        \begin{itemize}
+          \item \textit{Condizione:} storie divergenti (commit unici su entrambi i branch);
+          \item \textit{Punti di confronto:}
+            \begin{enumerate}
+              \item Base comune (Ancestor);
+              \item Versione locale (HEAD);
+              \item Versione remota (Branch);
+            \end{enumerate}
+          \item \textit{Azione:} Git crea un nuovo snapshot combinando le modifiche;
+          \item \textit{Risultato:} Viene creato un merge commit.
+        \end{itemize}
     \end{itemize}
   
     \subsection{Comandi Git}
@@ -156,5 +187,44 @@
       \item \texttt{git push:} invia i commit locali al repository remoto, aggiornando il branch remoto corrispondente; 
     \end{itemize}
 
+    \newpage
     \subsection{Git flow}
+    Con il termine Git flow intendiamo un modello di branching rigido per la gestione di rilasci e cicli di sviluppo definiti.\\
+    Il suo scopo è quello di separare gli ambienti di produzione, sviluppo, funzionalità e correzioni, attraverso i seguenti branch:
+    \begin{itemize}
+      \item \texttt{main/master}
+        \begin{itemize}
+          \item \textbf{Contenuto:} solo codice stabile, testato e rilasciato.;
+          \item \textbf{Checkout da:} \texttt{release-*} o \texttt{hotfix-*};
+          \item \textbf{Tag:} ogni merge riceve un tag di versione (es. \textit{v1.0});
+        \end{itemize}
+      \begin{samepage}
+        \item \texttt{develop}
+          \begin{itemize}
+            \item \textbf{Contenuto:} cronologia completa delle funzionalità di sviluppo;
+            \item \textbf{Checkout da:} \texttt{feature-*};
+            \item \textbf{Merge in:} \texttt{release-*}
+          \end{itemize}
+      \end{samepage}
+      \item \texttt{feature-*}
+        \begin{itemize}
+          \item \textbf{Scopo:} lavoro isolato su una nuova funzionalità;
+          \item \textbf{Checkout da:} \texttt{develop};
+          \item \textbf{Merge in:} \texttt{develop};
+          \item \textbf{Regola:} non interagisce mai con \texttt{main};
+        \end{itemize}
+      \item \texttt{release-*}
+        \begin{itemize}
+          \item \textbf{Scopo:} preparazione per il prossimo rilascio;
+          \item \textbf{Checkout da:} \texttt{develop};
+          \item \textbf{Attività:} Solo bug fixing minori e aggiornamento metadata (numero di versione);
+          \item \textbf{Doppio merge in:} \texttt{main} per il rilascio in produzione e \texttt{develop} per preservare le correzioni;
+        \end{itemize}
+      \item \texttt{hotfix-*}
+        \begin{itemize}
+          \item \textbf{Scopo:} Correzione immediata di bug critici trovati nel \texttt{main};
+          \item \textbf{Checkout da:} \texttt{main}
+          \item \textbf{Doppio merge in:} \texttt{main} per deployare subito la correzione e \texttt{develop} per garantire che il bug non riappaia in futuro;
+        \end{itemize}
+    \end{itemize}
 \end{document}
