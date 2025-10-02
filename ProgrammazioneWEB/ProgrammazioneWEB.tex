@@ -253,11 +253,11 @@
       \item \textbf{Annulare in staging:} dopo aver eseguito \texttt{git add}, qualora non si volesse più committare il file, è possibile rimuoverlo dall'area di staging tramite il comando \texttt{git reset HEAD -- <file>};
       \item \textbf{Annullare modifiche locali:} dopo aver modificato un file, è possibile scartare le modifiche e ripristinare quest'ultimo alla versione dell'ultimo commit tramite il comando \texttt{git checkout -- <file>};
       \item \textbf{Annullare un commit pubblicato:} dopo aver eseguito un commit ed averlo pubblicato, è possibile annullarlo tramite \texttt{git revert <hash-commit>};
-      \item \textbf{Annullare un commit locale:} dopo aver eseguito un commit senza averlo ancora pubblicato, è possibile annullarlo tramite il comando \texttt{git reset <--soft|--hard> HEAD\textasciitilde1}, dove:
+      \item \textbf{Annullare un commit locale:} dopo aver eseguito un commit senza averlo ancora pubblicato, è possibile annullarlo tramite il comando \texttt{git reset <--soft|--hard> HEAD\raisebox{-0.5ex}{\~{}}1}, dove:
         \begin{itemize}
           \item \texttt{--soft} rimuove l'ultimo commit mantenendo le modifiche nell'area di staging;
           \item \texttt{--hard} rimuove l'ultimo commit cancellando completamente le modifiche;
-          \item \texttt{HEAD\textasciitilde1} indica il commit direttamente precedente ad HEAD (\texttt{HEAD\textasciitilde3} indica il 3°, etc...); 
+          \item \texttt{HEAD\raisebox{-0.5ex}{\~{}}1} indica il commit direttamente precedente ad HEAD (\texttt{HEAD\raisebox{-0.5ex}{\~{}}3} indica il 3°, etc...); 
         \end{itemize}
       \item \textbf{Riscrivere l'ultimo commit:} per rimpiazzare l'ultimo commit con uno nuovo è possibile utilizzare il comando \texttt{git commit --amend}.
     \end{itemize}
