@@ -3,51 +3,51 @@
 \input{../packages/preamble.tex}
 
 \begin{document}
-    % --- Copertina ---
-    \begin{titlepage}
-        \centering
+  % --- Copertina ---
+  \begin{titlepage}
+      \centering
 
-        % --- Logo Sapienza ---
-        \includegraphics[width=0.95\textwidth]{logo_sapienza.png}
-        
-        \vspace*{\stretch{0.2}}
-        
-        % --- Dati Sapienza ---
-        {\LARGE "Sapienza" Università di Roma}\\[3pt]
-        {\Large Ingegneria dell'Informazione, Informatica e Statistica}\\[3pt]
-        {\large Dipartimento di Informatica}\\[3pt]
-        
-        % --- Spazio vuoto ---
-        \vspace*{\stretch{1}}
-        
-        % --- Titolo ---
-        \hrulefill\\
-        \vspace{15pt}
-        \textbf{\huge Programmazione WEB}\\
-        \vspace{7pt}
-        \hrulefill\\
-        
-        % --- Spazio vuoto ---
-        \vspace*{\stretch{2}}
-        
-        % --- Autore ---
-        \textit{\Large Autore}\\[3pt]
-        {\Large Vincenzo Bova}\\
-        
-        % --- Spazio vuoto ---
-        \vspace*{\stretch{1}}
+      % --- Logo Sapienza ---
+      \includegraphics[width=0.95\textwidth]{logo_sapienza.png}
+      
+      \vspace*{\stretch{0.2}}
+      
+      % --- Dati Sapienza ---
+      {\LARGE "Sapienza" Università di Roma}\\[3pt]
+      {\Large Ingegneria dell'Informazione, Informatica e Statistica}\\[3pt]
+      {\large Dipartimento di Informatica}\\[3pt]
+      
+      % --- Spazio vuoto ---
+      \vspace*{\stretch{1}}
+      
+      % --- Titolo ---
+      \hrulefill\\
+      \vspace{15pt}
+      \textbf{\huge Programmazione WEB}\\
+      \vspace{7pt}
+      \hrulefill\\
+      
+      % --- Spazio vuoto ---
+      \vspace*{\stretch{2}}
+      
+      % --- Autore ---
+      \textit{\Large Autore}\\[3pt]
+      {\Large Vincenzo Bova}\\
+      
+      % --- Spazio vuoto ---
+      \vspace*{\stretch{1}}
 
-        % --- Data ---
-        {\large A.A. 2025/2026}\\
-    \end{titlepage}
+      % --- Data ---
+      {\large A.A. 2025/2026}\\
+  \end{titlepage}
 
-    % --- Indice ---
-    \newpage
-    \tableofcontents
+  % --- Indice ---
+  \newpage
+  \tableofcontents
 
-    % --- Introduzione a Git ---
-    \newpage
-    \section{Introduzione a Git}
+  % --- Introduzione a Git ---
+  \newpage
+  \section{Introduzione a Git}
     \subsection{Sistemi di versionamento}
     Durante lo sviluppo di un progetto c'è spesso la necessità di effettuare revisioni, correzioni o modifiche ai file che lo compongono.
     \begin{figure}[H]
@@ -168,7 +168,7 @@
           \item \textit{Risultato:} Viene creato un merge commit.
         \end{itemize}
     \end{itemize}
-  
+
     \subsection{Comandi Git}
     Per interfacciarsi con Git vengono messi a disposizione dal sistema diversi comandi:
     \begin{itemize}
@@ -227,4 +227,39 @@
           \item \textbf{Doppio merge in:} \texttt{main} per deployare subito la correzione e \texttt{develop} per garantire che il bug non riappaia in futuro;
         \end{itemize}
     \end{itemize}
+
+    \newpage
+    \subsection{Gestione dei conflitti}
+    Immaginiamo un contesto in cui tre sviluppatori lavorano allo stesso progetto:
+    \begin{itemize}
+      \item \textbf{Marco} (\texttt{fix-data-leakage}): si accorge di una falla critica nel preprocessing del dataset. Ha fatto 4 commit sul suo branch;
+      \item \textbf{Luca} (\texttt{update-rules-parser}): ha aggiornato il parser delle regole della community, modificando gli \textbf{stessi file} di preprocessing toccati da Marco. Ha fatto 3 commit sul suo branch;
+      \item \textbf{Voi} (\texttt{main}): effettuate il merge del lavoro di Marco senza problemi e ora dovete unire il lavoro di Luca.
+    \end{itemize}
+    Nel momento in cui proverete ad effettuare il secondo merge, Git non ve lo consentirà, mettendo in pausa il merge e marcando i file in conflitto nel seguente modo:
+    \begin{lstlisting}
+
+      <<<<<<< HEAD
+      // Codice sul branch main
+      =======
+      // Codice sul branch update-rules-parser
+      >>>>>>> update-rules-parser
+    \end{lstlisting}
+    A questo punto sarà necessario risolvere i conflitti tramite l'interfaccia grafica aperta dal comando \texttt{git mergetool},
+    oppure manualmente aprendo ogni file, rimuovendo i marcatori di confitto e rieffettuando il commit.
+
+    \subsection{Annullamento delle operazioni}
+    \begin{itemize}
+      \item \textbf{Annulare in staging:} dopo aver eseguito \texttt{git add}, qualora non si volesse più committare il file, è possibile rimuoverlo dall'area di staging tramite il comando \texttt{git reset HEAD -- <file>};
+      \item \textbf{Annullare modifiche locali:} dopo aver modificato un file, è possibile scartare le modifiche e ripristinare quest'ultimo alla versione dell'ultimo commit tramite il comando \texttt{git checkout -- <file>};
+      \item \textbf{Annullare un commit pubblicato:} dopo aver eseguito un commit ed averlo pubblicato, è possibile annullarlo tramite \texttt{git revert <hash-commit>};
+      \item \textbf{Annullare un commit locale:} dopo aver eseguito un commit senza averlo ancora pubblicato, è possibile annullarlo tramite il comando \texttt{git reset <--soft|--hard> HEAD\textasciitilde1}, dove:
+        \begin{itemize}
+          \item \texttt{--soft} rimuove l'ultimo commit mantenendo le modifiche nell'area di staging;
+          \item \texttt{--hard} rimuove l'ultimo commit cancellando completamente le modifiche;
+          \item \texttt{HEAD\textasciitilde1} indica il commit direttamente precedente ad HEAD (\texttt{HEAD\textasciitilde3} indica il 3°, etc...); 
+        \end{itemize}
+      \item \textbf{Riscrivere l'ultimo commit:} per rimpiazzare l'ultimo commit con uno nuovo è possibile utilizzare il comando \texttt{git commit --amend}.
+    \end{itemize}
+
 \end{document}

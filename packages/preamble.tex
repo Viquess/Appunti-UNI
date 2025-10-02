@@ -1,10 +1,12 @@
-\usepackage{graphicx}
-\usepackage{titlesec}
+
 \usepackage{xcolor}
-\usepackage{enumitem}
-\usepackage{subcaption}
 \usepackage{float}
 \usepackage{placeins}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{subcaption}
 \usepackage[none]{hyphenat}
 \usepackage[most]{tcolorbox}
 \usepackage[italian]{babel}
@@ -14,12 +16,12 @@
 \graphicspath{{images/}}
 \setlist{itemsep=2pt}
 \definecolor{greenpastel}{RGB}{180, 230, 180}
+
 \tcbset{
   myboxstyle/.style={
     colback=white,
     coltitle=black,
-    fonttitle=\bfseries,
-    colframe=greenpastel
+    fonttitle=\bfseries
   }
 }
 
@@ -33,6 +35,25 @@
   title={Definizione \thedefinition: #1}
 }
 
+\lstset{
+  language=Java,
+  backgroundcolor=\color[HTML]{F2F2F2},  % grigio 
+  commentstyle=\color[RGB]{0,150,0},     % verde
+  keywordstyle=\color[RGB]{200,0,200},   % magenta
+  numberstyle=\tiny\color[RGB]{128,128,128}, % grigio
+  stringstyle=\color[RGB]{148,0,211},    % viola
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2
+}
 
 \titleformat{\section}
   [block]
