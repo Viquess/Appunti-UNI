@@ -17,7 +17,7 @@
 \definecolor{greenpastel}{RGB}{180, 230, 180}
 
 \tcbset{
-  myboxstyle/.style={
+  statement/.style={
     colback=white,
     coltitle=black,
     fonttitle=\bfseries
@@ -27,7 +27,7 @@
 \newcounter{definition}[section]
 \renewcommand{\thedefinition}{\thesection.\arabic{definition}}
 \newtcolorbox{definition}[1][]{
-  myboxstyle,
+  statement,
   colframe=greenpastel,
   boxed title style={colback=greenpastel},
   before title={\refstepcounter{definition}},
