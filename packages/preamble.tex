@@ -1,11 +1,13 @@
-\usepackage{xcolor}
 \usepackage{float}
+\usepackage{xcolor}
 \usepackage{placeins}
 \usepackage{listings}
 \usepackage{enumitem}
 \usepackage{graphicx}
 \usepackage{titlesec}
+\usepackage{tabularx}
 \usepackage{subcaption}
+\usepackage[T1]{fontenc}
 \usepackage[none]{hyphenat}
 \usepackage[most]{tcolorbox}
 \usepackage[italian]{babel}
@@ -14,7 +16,13 @@
 
 \graphicspath{{images/}}
 \setlist{itemsep=2pt}
-\definecolor{greenpastel}{RGB}{180, 230, 180}
+\definecolor{definition}{RGB}{180,230,180}
+\definecolor{code_strings}{RGB}{180,30,60}
+\definecolor{code_numbers}{RGB}{0,80,160}
+\definecolor{code_comments}{RGB}{136,136,136}
+\definecolor{code_keywords}{RGB}{128,0,128}
+\definecolor{code_brackets}{RGB}{204,102,0}
+\definecolor{code_extra}{RGB}{180,80,160}
 
 \tcbset{
   statement/.style={
@@ -28,20 +36,21 @@
 \renewcommand{\thedefinition}{\thesection.\arabic{definition}}
 \newtcolorbox{definition}[1][]{
   statement,
-  colframe=greenpastel,
-  boxed title style={colback=greenpastel},
+  colframe=definition,
+  boxed title style={colback=definition},
   before title={\refstepcounter{definition}},
   title={Definizione \thedefinition: #1}
 }
 
 \lstset{
-  language=Java,
-  backgroundcolor=\color[HTML]{F2F2F2},  % grigio 
-  commentstyle=\color[RGB]{0,150,0},     % verde
-  keywordstyle=\color[RGB]{200,0,200},   % magenta
-  numberstyle=\tiny\color[RGB]{128,128,128}, % grigio
-  stringstyle=\color[RGB]{148,0,211},    % viola
+  language=Python,
+  backgroundcolor=\color[HTML]{F2F2F2},
+  commentstyle=\color{code_comments},
+  keywordstyle=\color{code_keywords},
+  numberstyle=\tiny\color[RGB]{128,128,128},
+  stringstyle=\color{code_strings},
   basicstyle=\ttfamily\footnotesize,
+  upquote=true,
   breakatwhitespace=false,
   breaklines=true,
   captionpos=b,
@@ -51,8 +60,70 @@
   showspaces=false,
   showstringspaces=false,
   showtabs=false,
-  tabsize=2
+  tabsize=2,
+  frame=lines,
+  rulecolor=\color[HTML]{F2F2F2}
 }
+
+\lstdefinelanguage{HTTP}{
+  sensitive=true,
+  morecomment=[l]{\#},
+  morestring=[b]",
+  morekeywords={GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH, TRACE, CONNECT},
+  columns=fullflexible,
+  alsoletter={:},
+  moredelim=[is][\color{code_extra}\bfseries]{~}{~},
+  literate=
+    *{HTTP/1.0}{{{\color{code_keywords}HTTP/1.0}}}1
+     {HTTP/1.1}{{{\color{code_keywords}HTTP/1.1}}}1
+     {HTTP/2}{{{\color{code_keywords}HTTP/2}}}1
+     {HTTP/3}{{{\color{code_keywords}HTTP/3}}}1
+}
+
+\lstdefinelanguage{JSON}{
+    keywords={true,false,null},
+    morestring=[b]",
+    literate=
+     *{0}{{{\color{code_numbers}0}}}{1}
+      {1}{{{\color{code_numbers}1}}}{1}
+      {2}{{{\color{code_numbers}2}}}{1}
+      {3}{{{\color{code_numbers}3}}}{1}
+      {4}{{{\color{code_numbers}4}}}{1}
+      {5}{{{\color{code_numbers}5}}}{1}
+      {6}{{{\color{code_numbers}6}}}{1}
+      {7}{{{\color{code_numbers}7}}}{1}
+      {8}{{{\color{code_numbers}8}}}{1}
+      {9}{{{\color{code_numbers}9}}}{1}
+      {\{}{{{\color{code_brackets}{\{}}}}{1}
+      {\}}{{{\color{code_brackets}{\}}}}}{1}
+      {[}{{{\color{code_brackets}{[}}}}{1}
+      {]}{{{\color{code_brackets}{]}}}}{1},
+}
+
+\lstdefinelanguage{YAML}{
+    keywords={true,false,null},
+    morestring=[b]",
+    morecomment=[l]{\#},
+    literate=
+     *{0}{{{\color{code_numbers}0}}}{1}
+      {1}{{{\color{code_numbers}1}}}{1}
+      {2}{{{\color{code_numbers}2}}}{1}
+      {3}{{{\color{code_numbers}3}}}{1}
+      {4}{{{\color{code_numbers}4}}}{1}
+      {5}{{{\color{code_numbers}5}}}{1}
+      {6}{{{\color{code_numbers}6}}}{1}
+      {7}{{{\color{code_numbers}7}}}{1}
+      {8}{{{\color{code_numbers}8}}}{1}
+      {9}{{{\color{code_numbers}9}}}{1}
+      {\{}{{{\color{code_brackets}{\{}}}}{1}
+      {\}}{{{\color{code_brackets}{\}}}}}{1}
+      {[}{{{\color{code_brackets}{[}}}}{1}
+      {]}{{{\color{code_brackets}{]}}}}{1},
+}
+
+\lstnewenvironment{code}[1][]
+  {\lstset{#1}}
+  {}
 
 \titleformat{\section}
   [block]
