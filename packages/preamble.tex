@@ -14,6 +14,7 @@
 \usepackage[a4paper, margin=75pt]{geometry}
 \usepackage[colorlinks=true, linkcolor=black]{hyperref}
 
+\sloppy
 \graphicspath{{images/}}
 \setlist{itemsep=2pt}
 \definecolor{definition}{RGB}{180,230,180}
@@ -104,6 +105,7 @@
     keywords={true,false,null},
     morestring=[b]",
     morecomment=[l]{\#},
+    moredelim=[is][\color{strings}]{~}{~},
     literate=
      *{0}{{{\color{code_numbers}0}}}{1}
       {1}{{{\color{code_numbers}1}}}{1}

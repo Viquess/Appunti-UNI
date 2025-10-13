@@ -496,4 +496,65 @@ In particolare gli oggetti sono una collezione non ordinata di coppie chiave:val
       zipCode: "20100"
       country: "Italia"
 \end{code}
+
+\subsection{API}
+Un'\textbf{Application Programming Interface} (API) è la \textbf{definizione delle interazioni consentite} tra due parti di un software. 
+Funge cioè da contratto di interazione tra il \textbf{consumer} (client) ed il \textbf{provider} (servizio), specificando:
+\begin{itemize}
+  \item \textbf{Richieste} possibili;
+  \item \textbf{Parametri} delle richieste;
+  \item \textbf{Valori di ritorno};
+  \item \textbf{Formati di dato} richiesti (es. JSON, XML, YAML\dots).
+\end{itemize}
+L'adozione di un API porta vantaggi fondamentali nell'architettura software:
+\begin{itemize}
+  \item \textbf{Interfaccia esplicita:} definisce chiaramente le aspettative e le modalità di interazione;
+  \item \textbf{Contratto infrangibile:} stabilisce un insieme di regole che entrambe le parti devono rispettare;
+  \item \textbf{Information Hiding} (occultamento delle informazioni): la logica interna del provider rimane nascosta al consumer, che deve conoscere unicamente l'interfaccia.
+\end{itemize}
+
+\subsubsection{Categorie di API}
+È possibile suddividere le API in base alla loro posizione e funzione in:
+\begin{itemize}
+  \item \textbf{API Locali:}
+  \begin{itemize}
+    \item API per i linguaggi di programmmazione (es. libreria standard di Python);
+    \item API del sistema operativo;
+    \item API delle librerie software;
+    \item API hardware;
+  \end{itemize}
+  \item \textbf{API Remote (Web API):}
+  \begin{itemize}
+    \item Interfacce di programmazione basate su protocolli di rete (tipicamente HTTP), come le API RESTful.
+  \end{itemize}
+\end{itemize}
+Inoltre, è possibile suddividere le API sulla base dell'accessibilità in:
+\begin{itemize}
+  \item \textbf{API Private:} destinate all'uso interno di un'azienda o un sistema chiuso, prevedono che l'accesso sia limitato ai componenti interni;
+  \item \textbf{API Pubbliche:} disponibili per l'uso da parte del pubblico, prevedono che l'accesso possa essere limitato ad alcuni utenti tramite \textbf{API Tokens}.
+\end{itemize}
+
+\subsubsection{Interfaccia e stabilità}
+Col tempo i cambimaneti alle API potrebbero rompere le compatibilità con i client esistenti.
+Si utilizzano quindi dei \textbf{marcatori di stato}:
+\begin{itemize}
+  \item \texttt{beta:} indica che le parti potrebbero cambiare perchè non sono ancora stabili;
+  \item \texttt{deprecated:} indica che le parti verranno rimosse o non saranno più supportate in futuro.
+\end{itemize}
+
+\subsubsection{Documentazione delle API}
+È possibile definire esplicitamente un API attraverso \textbf{documentazione} (testo, esempi, manuali),
+oppure attraverso un \textbf{linguaggio di descrizione} standardizzato, il quale formalizza il contratto, consentendo la generazione automatica di documentazione, codice client e validazione.\\
+In particolare il linguaggio di descrizione leader del settore per le API moderne basate su HTTP è \textbf{OAS (OpenAPI Specification)}, un formato di descrizione \textbf{vendor-neutral} (indipendente dal fornitore).\\
+I file OpenAPI vengono solitamente scritti in formato YAML, data la sua leggibilità.
+\begin{code}[language=YAML]
+  openapi: 3.0.0
+  info:
+    title: "An example OpenAPI document"
+    description: |
+      This API allows writing down marks on a Tic Tac Toe board
+      and requesting the state of the board or of individual cells.
+    version: 0.0.1
+  paths: {} # Gli endpoint dell'API verrebbero definiti qui
+\end{code}
 \end{document}
