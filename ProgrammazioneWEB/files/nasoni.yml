@@ -1,0 +1,121 @@
+openapi: 3.0.4
+info:
+  title: Nasoni
+  description: |
+    API per la gestione dei nasoni di Roma
+  version: 0.0.1
+paths:
+  /fountains:
+    post:
+      operationId: createFountain
+      summary: Crea una fontana
+      description: |
+        Crea una nuova fontana con i dati
+        forniti (ID assegnato dal server)
+      requestBody:
+        description: Dati della fontana da creare (senza ID).
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fountain'
+      responses:
+        "201":
+          description: Fontana creata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fountain'
+    get:
+      operationId: listFountains
+      summary: Elenco delle fontane
+      description: |
+        Ottieni l'elenco delle fontane applicando
+        un filtro di vicinanza.
+      parameters:
+        - name: latitude
+          in: query
+          description: Latitudine da cui applicare la ricerca.
+          schema:
+            $ref: '#/components/schemas/Latitude'
+        - name: longitude
+          in: query
+          description: Longitudine da cui applicare la ricerca.
+          schema:
+            $ref: '#/components/schemas/Longitude'
+        - name: range
+          in: query
+          description: Range attorno al quale cercare rispetto alla longitudine e alla latitudine.
+          schema:
+            type: number
+            format: float
+      responses:
+        "200":
+          description: |
+            Un array di oggetti rappresentanti le fontane, contenenti ID, stato, latitudine e longitudine.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fountain'
+            
+components:
+  schemas:
+    Fountain:
+      title: Dettagli Fontana
+      description: Rappresentazione completa di una risorsa fontana (nasone).
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/FountainIdSchema'
+        state:
+          title: Stato
+          description: Stato di funzionamento della fontana.
+          type: string
+          enum:
+            - good
+            - faulty
+          example: good
+        latitude:
+          $ref: '#/components/schemas/Latitude'
+        longitude:
+          $ref: '#/components/schemas/Longitude'
+      required:
+        - state
+        - latitude
+        - longitude
+    Latitude:
+      title: Latitudine
+      description: Latitude in gradi decimali.
+      type: number
+      format: float
+      minimum: -90
+      maximum: 90
+    Longitude:
+      title: Longitudine
+      description: Longitudine in gradi decimali.
+      type: number
+      format: float
+      minimum: -180
+      maximum: 180
+    FountainIdSchema:
+      title: Fountain ID
+      description: ID univoco assegnato dal server.
+      type: integer
+      readOnly: true
+      example: 12345
+  parameters:
+    FountainID:
+      name: id
+      in: path
+      description: ID univico della fontana nel percorso.
+      required: true
+      schema:
+        $ref: '#/components/schemas/FountainIdSchema'
+        
+        
+                      
+                      
+                      
+
