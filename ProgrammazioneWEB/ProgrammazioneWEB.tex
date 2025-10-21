@@ -384,15 +384,15 @@ Si tratta di un metodo \textbf{idempotente}.
 \hline
 \textbf{Metodo} & \textbf{Descrizione} & \textbf{Safe} & \textbf{Idempotente} & \textbf{Cacheable}\\
 \hline\hline
-HEAD & Come GET, ma non trasferisce il contenuto della risposta. & Sì & Sì & Sì\\
+\textbf{HEAD} & Come GET, ma non trasferisce il contenuto della risposta. & Sì & Sì & Sì\\
 \hline
-CONNECT & Stabilisce un tunnel verso il server identificato dalla risorsa target. & No & No & No\\
+\textbf{CONNECT} & Stabilisce un tunnel verso il server identificato dalla risorsa target. & No & No & No\\
 \hline
-OPTIONS & Descrive le opzioni di comunicazione per la risorsa target. & Sì & Sì & No\\
+\textbf{OPTIONS} & Descrive le opzioni di comunicazione per la risorsa target. & Sì & Sì & No\\
 \hline
-TRACE & Esegue un test di loop-back del messaggio lungo il percorso verso la risorsa target. & Sì & Sì & No\\
+\textbf{TRACE} & Esegue un test di loop-back del messaggio lungo il percorso verso la risorsa target. & Sì & Sì & No\\
 \hline
-PATCH & Modifica parzialmente una risorsa, invece di sostituirla interamente come fa PUT. & No & No & No\\
+\textbf{PATCH} & Modifica parzialmente una risorsa, invece di sostituirla interamente come fa PUT. & No & No & No\\
 \hline
 \end{tabularx}
 \end{center}
@@ -557,4 +557,14 @@ I file OpenAPI vengono solitamente scritti in formato YAML, data la sua leggibil
     version: 0.0.1
   paths: {} # Gli endpoint dell'API verrebbero definiti qui
 \end{code}
+
+\subsection{REST}
+Il \textbf{Representational State Transfer} (REST) è uno stile architetturale per sistemi ipermediali distribuiti,
+il cui obiettivo è \textbf{trasferire la rappresentazione delle risorse} da un componente (es. il server) ad un altro (es. il client).
+\begin{definition}[Risorsa]
+Una risorsa è qualsiasi \textbf{informazione che possa essere nominata}:
+un documento, un'immagine, un servizio, un oggetto non virtuale o una collezione di altre risorse.\\
+Il contenuto di una risorsa può variare nel tempo, e due risorse diverse possono, in un determinato momento, mappare agli stessi valori.
+\end{definition}
+
 \end{document}
