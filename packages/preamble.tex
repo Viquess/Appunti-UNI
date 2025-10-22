@@ -1,3 +1,4 @@
+\usepackage{ulem}
 \usepackage{float}
 \usepackage{xcolor}
 \usepackage{placeins}
@@ -12,7 +13,7 @@
 \usepackage[most]{tcolorbox}
 \usepackage[italian]{babel}
 \usepackage[a4paper, margin=75pt]{geometry}
-\usepackage[colorlinks=true, linkcolor=black]{hyperref}
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=black]{hyperref}
 
 \sloppy
 \graphicspath{{images/}}
@@ -42,6 +43,9 @@
   before title={\refstepcounter{definition}},
   title={Definizione \thedefinition: #1}
 }
+
+\let\oldhref\href
+\renewcommand{\href}[2]{\oldhref{#1}{\uline{#2}}}
 
 \lstset{
   language=Python,
