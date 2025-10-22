@@ -565,11 +565,19 @@ Ecco alcuni esempi visti a lezioni inerenti all'utilizzo di OpenAPI:
 
 \subsection{REST}
 Il \textbf{Representational State Transfer} (REST) è uno stile architetturale per sistemi ipermediali distribuiti,
-il cui obiettivo è \textbf{trasferire la rappresentazione delle risorse} da un componente (es. il server) ad un altro (es. il client).
+che consente il trasferimento tra componenti (ad esempio dal server al client) della \textbf{rappresentazione delle risorse}, ovvero del loro stato attuale.
 \begin{definition}[Risorsa]
 Una risorsa è qualsiasi \textbf{informazione che possa essere nominata}:
 un documento, un'immagine, un servizio, un oggetto non virtuale o una collezione di altre risorse.\\
 Il contenuto di una risorsa può variare nel tempo, e due risorse diverse possono, in un determinato momento, mappare agli stessi valori.
 \end{definition}
+
+\subsubsection{Identificatori delle risorse}
+Per identificare le risorse vengono utilizzati gli \textbf{Uniform Resource Identifier} (URI) (es. \texttt{http://example.com/users}).\\
+In particolare è buona norma utilizzare sostantivi per rappresentare le risorse:
+\begin{itemize}
+  \item \textbf{Sostantivi singolari:} utilizzati per l'identificazione di una singola risorsa (es. \texttt{http://example.com/users/admin});
+  \item \textbf{Sostantivi plurali:} utilizzati per l'identificazione di una collezione di risorse (es. \texttt{https://example.com/users/}).
+\end{itemize}
 
 \end{document}
