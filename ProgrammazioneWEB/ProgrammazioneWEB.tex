@@ -595,4 +595,30 @@ Su una risorsa è possibile eseguire azioni diverse attraverso i metodi supporta
 \end{center}
 
 \subsubsection{Vincoli dei sistemi RESTful}
+I vincoli di un sistema RESTful sono:
+\begin{itemize}
+  \item \textbf{Client-Server:} viene applicata una separazione delle responsabilità (il client gestisce l'UI, il server gestisce l'archiviazione dei dati). Ciò migliora la portabilità e la scalabilità del sistema;
+  \item \textbf{Stateless:} le richieste del client devono contenere tutte le informazioni necessarie per essere compresa, senza fare affidamento ad eventuali contesti memorizzati sul server;
+  \item \textbf{Cacheable:} il client può riutilizzare la rappresentazione di una risorsa considerata cacheable per il periodo di tempo specificato nella risposta;
+  \item \textbf{Uniform Interface:} un'interfaccia uniforme tra i componenti promuove la standardizzazione, a discapito dell'efficienza. In particolare, ogni interfaccia segue quattro vincoli principali:
+    \begin{itemize}
+      \item Identificazione delle risorse;
+      \item Manipolazione delle risorse tramite rappresentazioni;
+      \item Messaggi auto-descrittivi;
+      \item Hypermedia come motore dello stato dell'applicazione (il client necessita solo della URI iniziale);
+    \end{itemize}
+  \item \textbf{Layered System:} i componenti intermedi di una comunicazione (gateway, proxy\dots) agiscono sia come client che come server, inoltrando richieste e risposte, a volte con una traduzione.
+\end{itemize}
+
+\subsubsection{HTTP vs REST}
+In un'architettura RESTful, i metodi HTTP (noti come "verbi") definiscono l'azione che si desidera eseguire sulla risorsa (URI).
+Gli URI identificano quindi la \textbf{cosa}, mentre i metodi HTTP definiscono \textbf{cosa fare} con quella cosa.
+
+\subsubsection{Esempi}
+\begin{itemize}
+  \item \href{http://gamificationlab.uniroma1.it/notes/hilo-game-final.yaml}{\textbf{HiLo Game}}
+  \item \href{https://github.com/Viquess/Appunti-UNI/blob/main/ProgrammazioneWEB/files/nasoni.yml}{\textbf{Nasoni}}
+  \item \href{https://github.com/hide-ous/WASA/tree/master/server_design_first}{\textbf{PokèTeam}} (con implementazione backend)
+\end{itemize}
+
 \end{document}
