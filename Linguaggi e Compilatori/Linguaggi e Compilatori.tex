@@ -58,15 +58,27 @@ Il codice sorgente non viene mai passato direttamente all'hardware, ma esiste un
     \item \textbf{Int($I$):} prende il codice analizzato da $M_I$ e lo traduce nel linguaggio $D$;
     \item \textbf{Macchina di destinazione ($M_D$):} un tempo era la macchina fisica $M_{HW}$ e $D$ era il set di istruzioni della sua CPU. Con l'avvento dei Sistemi Operativi è diventata $M_{SO}$ e $D$ è composto da linguaggio macchina e chiamate di sistema.
 \end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/introduzione/macchina.pdf} 
+\end{figure}
 Nella realtà il 99\% dei linguaggi ad alto livello hanno $M_I$ significative e i linguaggi puramente compilati o puramente interpretati sono dei casi limite.
 
 \subsection{Struttura di un compilatore}
+\begin{minipage}[t]{0.80\textwidth}
 Un compilatore può essere suddiviso in due grandi blocchi:
 \begin{itemize}
     \item \textbf{Frontend:} si occupa di analizzare il codice sorgente e assicurarsi che sia corretto ed è composto da: \textit{Lexical Analyzer}, \textit{Syntax Analyzer} e \textit{Semantic Analyzer};
     \item \textbf{Backend:} si occupa di tradurre il programma analizzato in codice eseguibile ed è composto da: \textit{Intermediate Code Generator}, \textit{Machine-Independent Code Optimizer}, \textit{Code Generator} e \textit{Machine-Dependent Code Optimizer}.
 \end{itemize}
 In particolare, \textit{Lexical} e \textit{Syntax Analyzers} non lavorano quasi mai in sequenza lineare ma collaborano continuamente, mentre \textit{Semantic Analyzer} e \textit{Intermediate Code Generator} sono spesso fusi assieme. Ogni stadio della compilazione riceve e produce una rappresentazione intermedia, modificando la \textbf{Symbol Table}.
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.14\textwidth} 
+    \vspace{-15pt} 
+    \centering
+    \includegraphics[width=\textwidth]{images/introduzione/compilatore.pdf}
+\end{minipage}
 
 \subsection{Scoping}
 Un compito fondamentale del compilatore è gestire la visibilità degli identificatori (variabili, funzioni, etc.) tramite le regole di \textbf{scoping}:
@@ -105,6 +117,6 @@ Data una CFG $G = (T, N, P, S)$, una \textbf{derivazione} è una sequenza di str
     \item $A_i \to \theta_i \in P$;
     \item $\alpha_{i+1} = \gamma_i \theta_i \delta_i$.
 \end{enumerate}
-In tal caso diciamo che $\alpha_k$ è derivabile da $\alpha_0$, $\alpha_0 \rightarrow{*} \alpha_k$.
+In tal caso diciamo che $\alpha_k$ è derivabile da $\alpha_0$, $\alpha_0 \xRightarrow{*} \alpha_k$.
 \end{definition}
 \end{document}
