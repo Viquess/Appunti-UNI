@@ -1,0 +1,85 @@
+\documentclass[12pt]{article}
+
+\input{../packages/preamble.tex}
+
+\begin{document}
+% --- Copertina ---
+\begin{titlepage}
+\centering
+
+% --- Logo Sapienza ---
+\includegraphics[width=0.95\textwidth]{logo_sapienza.png}
+
+\vspace*{\stretch{0.2}}
+
+% --- Dati Sapienza ---
+{\LARGE "Sapienza" Università di Roma}\\[3pt]
+{\Large Ingegneria dell'Informazione, Informatica e Statistica}\\[3pt]
+{\large Dipartimento di Informatica}\\[3pt]
+
+% --- Spazio vuoto ---
+\vspace*{\stretch{1}}
+
+% --- Titolo ---
+\hrulefill\\
+\vspace{15pt}
+\textbf{\huge Linguaggi e Compilatori}\\
+\vspace{7pt}
+\hrulefill\\
+
+% --- Spazio vuoto ---
+\vspace*{\stretch{2}}
+
+% --- Autore ---
+\textit{\Large Autore}\\[3pt]
+{\Large Vincenzo Bova}\\
+
+% --- Spazio vuoto ---
+\vspace*{\stretch{1}}
+
+% --- Data ---
+{\large A.A. 2025/2026}\\
+\end{titlepage}
+
+% --- Indice ---
+\newpage
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+\newpage
+\section{Introduzione}
+\subsection{Linguaggi Compilati vs Linguaggi Interpretati}
+In informatica moderna, quasi nessun linguaggio è puramente compilato oppure puramente interpretato.
+Il codice sorgente non viene mai passato direttamente all'hardware, ma esiste una gerarchia di componenti che collaborano tra loro:
+\begin{itemize}
+    \item \textbf{Macchina del linguaggio ($M_L$):} è l'entità in grado di "capire" direttamente programmi in linguaggio $L$;
+    \item \textbf{Trad($L$):} prende il codice analizzato da $M_L$ e lo traduce nel linguaggio $I$;
+    \item \textbf{Macchina intermedia ($M_I$):} è l'entità in grado di "capire" il linguaggio intermedio $I$;
+    \item \textbf{Int($I$):} prende il codice analizzato da $M_I$ e lo traduce nel linguaggio $D$;
+    \item \textbf{Macchina di destinazione ($M_D$):} un tempo era la macchina fisica $M_{HW}$ e $D$ era il set di istruzioni della sua CPU. Con l'avvento dei Sistemi Operativi è diventata $M_{SO}$ e $D$ è composto da linguaggio macchina e chiamate di sistema.
+\end{itemize}
+Nella realtà il 99\% dei linguaggi ad alto livello hanno $M_I$ significative e i linguaggi puramente compilati o puramente interpretati sono dei casi limite.
+
+\subsection{Struttura di un compilatore}
+Un compilatore può essere suddiviso in due grandi blocchi:
+\begin{itemize}
+    \item \textbf{Frontend:} si occupa di analizzare il codice sorgente e assicurarsi che sia corretto ed è composto da: \textit{Lexical Analyzer}, \textit{Syntax Analyzer} e \textit{Semantic Analyzer};
+    \item \textbf{Backend:} si occupa di tradurre il programma analizzato in codice eseguibile ed è composto da: \textit{Intermediate Code Generator}, \textit{Machine-Independent Code Optimizer}, \textit{Code Generator} e \textit{Machine-Dependent Code Optimizer}.
+\end{itemize}
+In particolare, \textit{Lexical} e \textit{Syntax Analyzers} non lavorano quasi mai in sequenza lineare ma collaborano continuamente, mentre \textit{Semantic Analyzer} e \textit{Intermediate Code Generator} sono spesso fusi assieme. Ogni stadio della compilazione riceve e produce una rappresentazione intermedia, modificando la \textbf{Symbol Table}.
+
+\subsection{Scoping}
+Un compito fondamentale del compilatore è gestire la visibilità degli identificatori (variabili, funzioni, etc.) tramite le regole di \textbf{scoping}:
+\begin{itemize}
+    \item \textbf{Scoping statico:} la visibilità di un nome è determinata al tempo di compilazione in base alla struttura del testo;
+    \item \textbf{Scoping dinamico:} la visibilità dipende dall'ordine di chiamata delle funzioni a tempo di esecuzione.
+\end{itemize}
+
+\subsection{Passaggio dei parametri}
+Determina come le informazioni vengono trasmesse tra il chiamante e la funzione:
+\begin{itemize}
+    \item \textbf{Call by value:} viene passata una copia del valore. È sicuro ma può essere inefficiente per strutture grandi;
+    \item \textbf{Call by reference:} viene passata la locazione di memoria. Permette effetti collaterali e risparmio di memoria;
+    \item \textbf{Call by name:} l'espressione viene valutata solo quando effettivamente usata nella funzione (tipico dei linguaggi funzionali).
+\end{itemize}
+\end{document}
