@@ -82,4 +82,29 @@ Determina come le informazioni vengono trasmesse tra il chiamante e la funzione:
     \item \textbf{Call by reference:} viene passata la locazione di memoria. Permette effetti collaterali e risparmio di memoria;
     \item \textbf{Call by name:} l'espressione viene valutata solo quando effettivamente usata nella funzione (tipico dei linguaggi funzionali).
 \end{itemize}
+
+\newpage
+\section{Costruzione di un compilatore}
+\subsection{Sintassi}
+Il primo passo per costruire un compilatore prevede di definire formalmente la grammatica del linguaggio.
+\subsubsection{Grammatiche Context-Free (CFG)}
+\begin{definition}[Grammatica Context-Free]
+Una grammatica context-free è una quadrupla $G = (T, N, P, S)$, dove:
+\begin{itemize}
+    \item \textbf{Insieme di simboli terminali ($T$):} simboli elementari (token) non sostituibili;
+    \item \textbf{Insieme di simboli non terminali ($N$):} variabili sintattiche sostituibili tramite produzioni;
+    \item \textbf{Insieme di produzioni ($P$):} regole di riscrittura nella forma $A \to \alpha$;
+    \item \textbf{Simbolo di partenza ($S$):} il punto di inizio della derivazione, con $S \in N$.
+\end{itemize}
+\end{definition}
+\noindent A questo punto, data una stringa contenente almeno un non terminale, possiamo scegliere un non terminale contenuto al suo interno e sostituirlo mediante una delle produzioni definite nella grammatica.
+\begin{definition} [Derivazione]
+Data una CFG $G = (T, N, P, S)$, una \textbf{derivazione} è una sequenza di stringhe $\alpha_0, \alpha_1, \dots, \alpha_k$ t.c. $\forall 0 \leq i < k$:
+\begin{enumerate}
+    \item $\alpha_i = \gamma_i A_i \delta_i$;
+    \item $A_i \to \theta_i \in P$;
+    \item $\alpha_{i+1} = \gamma_i \theta_i \delta_i$.
+\end{enumerate}
+In tal caso diciamo che $\alpha_k$ è derivabile da $\alpha_0$, $\alpha_0 \rightarrow{*} \alpha_k$.
+\end{definition}
 \end{document}
