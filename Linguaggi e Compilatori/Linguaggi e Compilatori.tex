@@ -103,7 +103,7 @@ Il primo passo per costruire un compilatore prevede di definire formalmente la g
 \begin{definition}[Grammatica Context-Free]
 Una grammatica context-free è una quadrupla $G = (T, N, P, S)$, dove:
 \begin{itemize}
-    \item \textbf{Insieme di simboli terminali ($T$):} simboli elementari (token) non sostituibili;
+    \item \textbf{Insieme di simboli terminali ($T$):} simboli elementari non sostituibili;
     \item \textbf{Insieme di simboli non terminali ($N$):} variabili sintattiche sostituibili tramite produzioni;
     \item \textbf{Insieme di produzioni ($P$):} regole di riscrittura nella forma $A \to \alpha$;
     \item \textbf{Simbolo di partenza ($S$):} il punto di inizio della derivazione, con $S \in N$.
@@ -119,4 +119,25 @@ Data una CFG $G = (T, N, P, S)$, una \textbf{derivazione} è una sequenza di str
 \end{enumerate}
 In tal caso diciamo che $\alpha_k$ è derivabile da $\alpha_0$, $\alpha_0 \xRightarrow{*} \alpha_k$.
 \end{definition}
+\begin{definition} [Linguaggio di una CFG]
+Data una CFG $G = (T, N, P, S)$, il suo \textbf{linguaggio} $L(G)$ è definito come:
+$$L(G) = \{ u \in T^* \mid S \xRightarrow{*} u \}$$
+\end{definition}
+
+\subsubsection{Parse Tree}
+\begin{definition}[Parse Tree]
+Data una CFG $G = (T, N, P, S)$ un \textbf{parse tree} in $G$ è un \textbf{albero radicato} tale che:
+\begin{itemize}
+    \item la radice è S;
+    \item ogni foglia è un terminale o $\epsilon$;
+    \item Ogni nodo interno è un non-terminale;
+    \item Se A è un nodo interno con figli $X_1,\dots,X_n$ allora $A \rightarrow X_1 \dots X_n \in P$.
+\end{itemize}
+\end{definition}
+\begin{theorem}[Corrispondenza tra parse tree e $L(G)$]
+Siano $G = (T, N, P, S)$ una CFG, $T$ un parse tree in $G$ e $u$ una stringa:
+$$u \in L(G) \iff \exists \text{ PT per }u$$
+In particolare, $T$ è una parse tree per $u$ se le foglie di $T$ concatenate da sinistra a destra formano $u$.
+\end{theorem}
+\noindent\textbf{Esempio:}
 \end{document}

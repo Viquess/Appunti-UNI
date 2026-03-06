@@ -19,8 +19,9 @@
 
 \sloppy
 \graphicspath{{images/}}
-\setlist{itemsep=2pt}
+\setlist{itemsep=0.5pt, topsep = 6pt}
 \definecolor{definition}{RGB}{180,230,180}
+\definecolor{theorem}{RGB}{255,150,150}
 \definecolor{code_strings}{RGB}{180,30,60}
 \definecolor{code_numbers}{RGB}{0,80,160}
 \definecolor{code_comments}{RGB}{136,136,136}
@@ -44,6 +45,16 @@
   boxed title style={colback=definition},
   before title={\refstepcounter{definition}},
   title={Definizione \thedefinition: #1}
+}
+
+\newcounter{theorem}[section]
+\renewcommand{\thetheorem}{\thesection.\arabic{theorem}}
+\newtcolorbox{theorem}[1][]{
+  statement,
+  colframe=theorem,
+  boxed title style={colback=theorem},
+  before title={\refstepcounter{theorem}},
+  title={Teorema \thetheorem: #1}
 }
 
 \let\oldhref\href
