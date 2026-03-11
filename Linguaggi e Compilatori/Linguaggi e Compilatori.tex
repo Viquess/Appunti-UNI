@@ -139,5 +139,24 @@ Siano $G = (T, N, P, S)$ una CFG, $T$ un parse tree in $G$ e $u$ una stringa:
 $$u \in L(G) \iff \exists \text{ PT per }u$$
 In particolare, $T$ è una parse tree per $u$ se le foglie di $T$ concatenate da sinistra a destra formano $u$.
 \end{theorem}
-\noindent\textbf{Esempio:}
+\noindent\textbf{Esempio:}\\
+$$list \rightarrow list + digit \text{ | } list - digit \text{ | } digit$$
+$$digit \rightarrow 0 \text{ | } 1 \text{ | } \dots \text{ | } 9$$
+\begin{center}
+\begin{minipage}{0.45\textwidth}
+\textbf{Derivazione per $9 - 5 + 2$}:
+\begin{enumerate}
+    \item $list$
+    \item $list + digit$
+    \item $list - digit + digit$
+    \item $digit - digit + digit$
+    \item $9 - digit + digit$
+    \item $9 - 5 + 2$
+\end{enumerate}
+\end{minipage}
+\begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/costruzione_di_un_compilatore/parse_tree.pdf}
+\end{minipage}
+\end{center}
 \end{document}
