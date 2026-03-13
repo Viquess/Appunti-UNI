@@ -1,5 +1,6 @@
 \usepackage{ulem}
 \usepackage{float}
+\usepackage{ifthen}
 \usepackage{xcolor}
 \usepackage{wrapfig}
 \usepackage{placeins}
@@ -8,6 +9,7 @@
 \usepackage{graphicx}
 \usepackage{titlesec}
 \usepackage{tabularx}
+\usepackage{fancyhdr}
 \usepackage{mathtools}
 \usepackage{subcaption}
 \usepackage[T1]{fontenc}
@@ -16,6 +18,24 @@
 \usepackage[italian]{babel}
 \usepackage[a4paper, margin=75pt]{geometry}
 \usepackage[colorlinks=true, linkcolor=black, urlcolor=black]{hyperref}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\renewcommand{\headrulewidth}{0.2pt} 
+\renewcommand{\headrule}{%
+  \ifthenelse{\equal{\rightmark}{}}{}{%
+    {\color{lightgray}\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}%
+  }%
+}
+\renewcommand{\footrulewidth}{0.2pt}
+\renewcommand{\footrule}{{\color{lightgray}\hrule width\headwidth height\footrulewidth \vskip-\footrulewidth}}
+\fancyhead[R]{\rightmark}
+\fancyfoot[L]{Capitolo \leftmark} 
+\fancyfoot[R]{\thepage}
+
+\renewcommand{\sectionmark}[1]{\markboth{\thesection. #1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{\thesubsection. #1}}
 
 \sloppy
 \graphicspath{{images/}}

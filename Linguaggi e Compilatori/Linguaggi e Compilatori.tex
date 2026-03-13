@@ -13,7 +13,7 @@
 \vspace*{\stretch{0.2}}
 
 % --- Dati Sapienza ---
-{\LARGE "Sapienza" Università di Roma}\\[3pt]
+{\LARGE ``Sapienza'' Università di Roma}\\[3pt]
 {\Large Ingegneria dell'Informazione, Informatica e Statistica}\\[3pt]
 {\large Dipartimento di Informatica}\\[3pt]
 
@@ -44,7 +44,13 @@
 % --- Indice ---
 \newpage
 \setcounter{tocdepth}{2}
+\cleardoublepage
+\pagenumbering{roman}
+\pagestyle{plain}
 \tableofcontents
+\cleardoublepage
+\pagenumbering{arabic}
+\pagestyle{fancy}
 
 \newpage
 \section{Introduzione}
@@ -52,15 +58,15 @@
 In informatica moderna, quasi nessun linguaggio è puramente compilato oppure puramente interpretato.
 Il codice sorgente non viene mai passato direttamente all'hardware, ma esiste una gerarchia di componenti che collaborano tra loro:
 \begin{itemize}
-    \item \textbf{Macchina del linguaggio ($M_L$):} è l'entità in grado di "capire" direttamente programmi in linguaggio $L$;
+    \item \textbf{Macchina del linguaggio ($M_L$):} è l'entità in grado di ``capire'' direttamente programmi in linguaggio $L$;
     \item \textbf{Trad($L$):} prende il codice analizzato da $M_L$ e lo traduce nel linguaggio $I$;
-    \item \textbf{Macchina intermedia ($M_I$):} è l'entità in grado di "capire" il linguaggio intermedio $I$;
+    \item \textbf{Macchina intermedia ($M_I$):} è l'entità in grado di ``capire'' il linguaggio intermedio $I$;
     \item \textbf{Int($I$):} prende il codice analizzato da $M_I$ e lo traduce nel linguaggio $D$;
     \item \textbf{Macchina di destinazione ($M_D$):} un tempo era la macchina fisica $M_{HW}$ e $D$ era il set di istruzioni della sua CPU. Con l'avvento dei Sistemi Operativi è diventata $M_{SO}$ e $D$ è composto da linguaggio macchina e chiamate di sistema.
 \end{itemize}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/introduzione/macchina.pdf} 
+    \includegraphics[width=0.8\textwidth]{introduzione/macchina.pdf} 
 \end{figure}
 Nella realtà il 99\% dei linguaggi ad alto livello hanno $M_I$ significative e i linguaggi puramente compilati o puramente interpretati sono dei casi limite.
 
@@ -77,7 +83,7 @@ In particolare, \textit{Lexical} e \textit{Syntax Analyzers} non lavorano quasi 
 \begin{minipage}[t]{0.14\textwidth} 
     \vspace{-15pt} 
     \centering
-    \includegraphics[width=\textwidth]{images/introduzione/compilatore.pdf}
+    \includegraphics[width=\textwidth]{introduzione/compilatore.pdf}
 \end{minipage}
 
 \subsection{Scoping}
@@ -131,7 +137,7 @@ Data una CFG $G = (T, N, P, S)$ un \textbf{parse tree} in $G$ è un \textbf{albe
     \item la radice è S;
     \item ogni foglia è un terminale o $\epsilon$;
     \item Ogni nodo interno è un non-terminale;
-    \item Se A è un nodo interno con figli $X_1,\dots,X_n$ allora $A \rightarrow X_1 \dots X_n \in P$.
+    \item Se A è un nodo interno con figli $X_1,\dots,X_n$ allora $A \to X_1 \dots X_n \in P$.
 \end{itemize}
 \end{definition}
 \begin{theorem}[Corrispondenza tra parse tree e $L(G)$]
@@ -140,8 +146,8 @@ $$u \in L(G) \iff \exists \text{ PT per }u$$
 In particolare, $T$ è una parse tree per $u$ se le foglie di $T$ concatenate da sinistra a destra formano $u$.
 \end{theorem}
 \noindent\textbf{Esempio:}\\
-$$list \rightarrow list + digit \text{ | } list - digit \text{ | } digit$$
-$$digit \rightarrow 0 \text{ | } 1 \text{ | } \dots \text{ | } 9$$
+$$list \to list + digit \mid list - digit \mid digit$$
+$$digit \to 0 \mid 1 \mid \dots \mid 9$$
 \begin{center}
 \begin{minipage}{0.45\textwidth}
 \textbf{Derivazione per $9 - 5 + 2$}:
@@ -151,12 +157,166 @@ $$digit \rightarrow 0 \text{ | } 1 \text{ | } \dots \text{ | } 9$$
     \item $list - digit + digit$
     \item $digit - digit + digit$
     \item $9 - digit + digit$
+    \item $9 - 5 + digit$
     \item $9 - 5 + 2$
 \end{enumerate}
 \end{minipage}
 \begin{minipage}{0.45\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{images/costruzione_di_un_compilatore/parse_tree.pdf}
+    \includegraphics[width=\textwidth]{costruzione_di_un_compilatore/parse_tree.pdf}
 \end{minipage}
 \end{center}
+\bigskip
+Data una CFG $G$ ed una stringa $u$ di simboli terminali, \textbf{fare il parsing} di $u$ significa stabilire se $u \in L(G)$, ma le CFG non sono adatte a verificare ciò in modo efficiente.
+\begin{definition}[Ambiguità di una CFG]
+Una CFG $G = (T, N, P, S)$ \textbf{è ambigua} se esiste $u \in L(G)$ per cui esistono due parse tree.\\
+$G$ \textbf{non è necessariamente ambigua} se esiste $u \in L(G)$ per cui esistono due derivazioni da $S$ a $u$.
+\end{definition}
+\noindent\begin{minipage}{\textwidth}
+\textbf{Esempi:}\\
+\begin{itemize}
+    \item \textit{CFG ambigua:}
+        $$string \to string + string \mid string - string \mid 0 \mid 1 \mid \dots \mid 9$$
+        \begin{center}
+        \includegraphics[width=\textwidth]{costruzione_di_un_compilatore/ambiguita.pdf}
+        \end{center}
+    \item \textit{CFG non ambigua:}
+        $$list \to list + digit \mid list - digit \mid digit$$
+        $$digit \to 0 \mid 1 \mid \dots \mid 9$$
+        \begin{minipage}[t]{0.45\textwidth}
+        \textbf{1° derivazione per} $9 - 5 + 2$:
+        \begin{enumerate}
+            \item $list$
+            \item $list + digit$
+            \item $list - digit + digit$
+            \item $digit - digit + digit$
+            \item $9 - digit + digit$
+            \item $9 - 5 + digit$
+            \item $9 - 5 + 2$
+        \end{enumerate}
+        \end{minipage}
+        \hfill
+        \begin{minipage}[t]{0.45\textwidth}
+        \textbf{2° derivazione per} $9 - 5 + 2$:
+        \begin{enumerate}
+            \item $list$
+            \item $list + digit$
+            \item $list + 2$
+            \item $list - digit + 2$
+            \item $list - 5 + 2$
+            \item $digit - 5 + 2$
+            \item $9 - 5 + 2$
+        \end{enumerate}
+        \end{minipage}
+\end{itemize}
+\end{minipage}
+\bigskip
+\begin{definition}[Associatività]
+Un operatore è \textbf{associativo a sinistra} se $a \circ b \circ c$ è interpretato come $(a \circ b) \circ c$, mentre è \textbf{associativo a destra} se è interpretato come $a \circ (b \circ c)$.\\
+L'associatività deve essere trattata a livello di grammatica.
+\end{definition}
+\noindent Per gestire l'associatività, la grammatica deve essere strutturata con ricorsione a sinistra (per operatori associativi a sinistra) o a destra (per operatori associativi a destra):
+\begin{itemize}
+    \item $list \to list + digit \mid list - digit \mid digit$ \textbf{(associatività a sinistra)}\\
+        $digit \to 0 \mid 1 \mid \dots \mid 9$
+    \item $right \to letter = right \mid letter$ \textbf{(associatività a destra)}\\
+        $letter \to a \mid b \mid \dots \mid z$
+\end{itemize}
+\begin{definition}[Precedenza]
+Operatori differenti avranno, in generale, precedenze differenti.\\
+Le precedenze devono essere trattate a livello di grammatica.
+\end{definition}
+\noindent Per gestire le precedenze a livello di grammatica, si parte definendo la lista delle precedenze in ordine crescente e mettendo sulla stessa riga gli elementi con la stessa precedenza, ad esempio:
+\begin{itemize}
+    \item $+ \ -$
+    \item $* \ /$
+    \item $digit \ ()$
+\end{itemize}
+Successivamente per ogni livello di precedenza, a partire dal maggiore, si crea un nuovo non terminale con le relative produzioni ``collegandole'' al non terminale creato in precedenza, ad esempio:
+$$E \to E + T \mid E - T \mid T$$
+$$T \to T * F \mid T / F \mid F$$
+$$F \to digit() \mid (E)$$
+\subsection{Traduzione}
+Per questa fase assumeremo di non aver bisogno del lexer e di avere un parser funzionante.
+\begin{definition}[Notazione postfissa]
+La \textbf{notazione postfissa} è una rappresentazione lineare di un'espressione in cui l'operatore segue i suoi operandi. Per un'espressione $E$ può essere definita induttivamente:
+\begin{enumerate}
+    \item $E \text{ è una variabile o una costante } \implies post(E) = E$;
+    \item $E = E_1 \circ E_2 \implies post(E) = post(E_1) \ post(E_2) \ \circ$;
+    \item $E = (E_1) \implies post(E) = post(E_1)$.
+\end{enumerate}
+\end{definition}
+\noindent Il nostro obiettivo sarà quello di definire un \textbf{traduttore} che, data un'espressione aritmetica $E$, produca $post(E)$.
+Per farlo useremo due approcci: \textbf{Syntax-Directed Semantic Definitions} (dichiarativo) e \textbf{Syntax-Directed Translation Schemes} (imperativo).\\
+Considerato che in una produzione lo stesso simbolo può comparire più volte, data $A \to \alpha$ e dato un simbolo $X$ in $\alpha$, \textbf{numereremo} le diverse occorrenze di $X$ in $\alpha$ in maniera crescente da sinistra a destra, così da distinguerle. Ad esempio:
+$$expr \to expr_1 + term \mid expr_1 - term \mid term$$
+$$term \to 0 \mid 1 \mid \dots \mid 9$$
+\subsubsection{Syntax-Directed Semantic Definitions}
+\begin{definition}[Syntax-Directed Semantic Definitions]
+Data una CFG $G = (T, N, P, S)$, una \textbf{Syntax-Directed Semantic Definitions} per $G$:
+\begin{itemize}
+    \item associa ad ogni $X \in N \cup T$ un \textbf{insieme di attributi};
+    \item associa ad ogni $A \to \alpha \in P$ un \textbf{insieme di regole semantiche} che definiscono i valori degli attributi di $A$ e dei simboli in $\alpha$.
+\end{itemize}
+L'attributo $p$ di un simbolo $A$ è indicato con $A.p$.
+\end{definition}
+\begin{definition}[Regola semantica]
+Una \textbf{regola semantica} per una produzione $\mathcal{P} = A \to \alpha$ ha la forma $X.p = f(\mathcal{P})$ dove:
+\begin{itemize}
+    \item $X$ è un simbolo presente in $\mathcal{P}$;
+    \item $f$ è un'espressione contenente attributi di simboli in $\mathcal{P}$.
+\end{itemize}
+\end{definition}
+\begin{definition}[Attributi sintetizzati ed ereditati]
+Un attributo $X.p$ è \textbf{sintetizzato} se per ogni regola $X.p = f(A \to \alpha)$, $X = A$.\\
+Un attributo $X.p$ è \textbf{ereditato} se esiste una regola $X.p = f(A \to \alpha)$ t.c. $X \in \alpha$.
+\end{definition}
+\noindent\textbf{Esempio:}
+\begin{center}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{l | l}
+        \textbf{Produzioni} & \textbf{Regole Semantiche} \\
+        \hline
+        $expr \to expr_1 + term$ & $expr.t = expr_1.t \parallel term.t \parallel \text{'+'}$ \\
+        $expr \to expr_1 - term$ & $expr.t = expr_1.t \parallel term.t \parallel \text{'-'}$ \\
+        $expr \to term$          & $expr.t = term.t$ \\
+        $term \to 0$             & $term.t = \text{'0'}$ \\
+        $\vdots$                 & $\vdots$ \\
+        $term \to 9$             & $term.t = \text{'9'}$ \\
+    \end{tabular}
+\end{center}
+In questo esempio, ogni simbolo non terminale ha un solo attributo e ogni produzione ha una sola regola semantica. Inoltre, tutti gli attributi sono sintetizzati e $t$ è una stringa, con $\parallel$ che indica la concatenazione.
+
+\bigskip
+\noindent Gli attributi sintetizzati possono essere \textbf{calcolati in modo efficiente} tramite una visita in profondità del parse tree oppure ``al volo'' durante il parsing. Gli attributi ereditati, invece, richiedono una \textbf{gestione più complessa}, in quanto, anche avendo il parse tree, una visita in profondità non funzionerebbe e la traduzione ``al volo'' durante il parsing non sarebbe sempre possibile.
+\subsubsection{Syntax-Directed Translation Scheme}
+\begin{definition}[Syntax-Directed Translation Scheme]
+Data una CFG $G = (T, N, P, S)$, un \textbf{Syntax-Directed Translation Scheme} per $G$ aggiunge ad ogni $A \to \alpha \in P$ una serie di \textbf{azioni semantiche} $\mathcal{C}_1, \mathcal{C}_2, \dots, \mathcal{C}_k$, ottenendo la produzione
+$$A \to \alpha_0 \mathcal{C}_1 \alpha_1 \mathcal{C}_2 \alpha_2 \dots \mathcal{C}_k \alpha_k$$
+dove ogni $\alpha_i$ può essere $\epsilon$ e $\alpha_0 \alpha_1 \dots \alpha_k = \alpha$.
+\end{definition}
+\begin{definition}[Azione semantica]
+Un'\textbf{azione semantica} ha la forma \{\texttt{frag}\}, dove \texttt{frag} è un \textbf{frammento di codice} tipicamente scritto nel linguaggio d'implementazione del traduttore.
+\end{definition}
+\noindent\textbf{Esempio:}
+$$expr \to expr + term \ \{ \texttt{print('+')} \}$$
+$$expr \to expr - term \ \{ \texttt{print('-')} \}$$
+$$expr \to term$$
+$$term \to 0 \ \{ \texttt{print('0')} \}$$
+$$\vdots$$
+$$term \to 9 \ \{ \texttt{print('9')} \}$$
+Consideriamo le azioni semantiche come \textbf{foglie extra} del parse tree:
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{costruzione_di_un_compilatore/sdts_parse_tree.pdf} 
+\end{figure}
+
+\bigskip
+\noindent Assumendo di aver costruito il parse tree con le foglie extra per rappresentare le azioni semantiche, l'ordine di esecuzione di tali azioni corrisponde a quello di una \textbf{Depth First Visit}.
+Qualora il parser possa garantire lo stesso ordine di esecuzione, allora è possibile eseguire le azioni semantiche ``al volo''.
+
+\smallskip
+\noindent Una definizione semantica è associata ad una produzione, mentre un'azione semantica è associata ad una produzione e ad una particolare posizione all'interno di essa. Ciò rende le azioni semantiche \textbf{più potenti}, ma le SDSD hanno la possibilità di avere \textbf{attributi ereditati}, di conseguenza possiamo concludere che SDSD $\equiv$ SDTS.
+\subsection{Parsing}
+Per questa fase assumeremo di avere un lexer funzionante, l'input arriverà quindi già tokenizzato.
 \end{document}
