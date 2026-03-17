@@ -318,5 +318,28 @@ Qualora il parser possa garantire lo stesso ordine di esecuzione, allora è poss
 \smallskip
 \noindent Una definizione semantica è associata ad una produzione, mentre un'azione semantica è associata ad una produzione e ad una particolare posizione all'interno di essa. Ciò rende le azioni semantiche \textbf{più potenti}, ma le SDSD hanno la possibilità di avere \textbf{attributi ereditati}, di conseguenza possiamo concludere che SDSD $\equiv$ SDTS.
 \subsection{Parsing}
-Per questa fase assumeremo di avere un lexer funzionante, l'input arriverà quindi già tokenizzato.
+Per questa fase assumeremo di avere un lexer funzionante, l'input arriverà quindi già tokenizzato.\\
+In generale per ogni CFG esiste un parser operante in $O(n^3)$, ma fortunatamente esistono due classi di CFG che permettono il parsing in $O(n)$:
+\begin{itemize}
+    \item Grammatiche \textbf{LL(k)} (Left-to-right, Leftmost derivation);
+    \item Grammatiche \textbf{LR(k)} (Left-ro-right, Rightmost derivation).
+\end{itemize}
+Le prestazioni del parser dipendono dal tipo di grammatica su cui si usa.
+\subsubsection{Bottom-Up parsing}
+\begin{definition}[Parsing bottom-up]
+Il \textbf{parsing bottom-up} costruisce il parse tree partendo dalle foglie verso la radice.
+Per farlo, opera su una stringa $\mathcal{I}$, il cui valore iniziale è il testo da analizzare:
+\begin{enumerate}
+    \item Individua una sottostringa $\alpha$ di $\mathcal{I}$ t.c. $\exists A \rightarrow \alpha \in P$;
+    \item Sostituisce $\alpha$ con $A$;
+    \item Se $\mathcal{I} = S$, termina con successo, altrimenti riparte dal passo 1;
+\end{enumerate}
+\end{definition}
+\noindent Il limite critico di questo approccio risiede nel \textbf{non-determinismo} del passo 1: all'interno della stringa $I$ potrebbero infatti esserci più sottostringhe $\alpha$ valide per la sostituzione.
+Per delle CFG generiche, questa ambiguità può portare il sistema a ricorrere al \textbf{backtracking}, portando la complessità computazionale a $O(n^3)$.\\
+Nel caso delle grammatiche \textbf{LR(k)}, invece, il passo 1 arriva sempre ad un'unica scelta possibile oppure al parsing error, garantendo il determinismo ed eliminando il backtracking. Grazie a questa proprietà, il parser può operare in tempo $O(n)$.
+
+\smallskip
+\noindent Poiché la classe delle grammatiche \textbf{LR(k)} è più ampia di \textbf{LL(k)} ($LL(k) \subset LR(k)$), i parser bottom-up risultano particolarmente complessi. Per questo motivo, la loro costruzione richiede tool appositi (YACC \dots), a differenza dei parser per grammatiche \textbf{LL(k)} che possono essere facilmente implementati a mano.
+\subsubsection{Top-Down parsing}
 \end{document}
