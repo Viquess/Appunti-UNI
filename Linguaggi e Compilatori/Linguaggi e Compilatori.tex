@@ -342,4 +342,15 @@ Nel caso delle grammatiche \textbf{LR(k)}, invece, il passo 1 arriva sempre ad u
 \smallskip
 \noindent Poiché la classe delle grammatiche \textbf{LR(k)} è più ampia di \textbf{LL(k)} ($LL(k) \subset LR(k)$), i parser bottom-up risultano particolarmente complessi. Per questo motivo, la loro costruzione richiede tool appositi (YACC \dots), a differenza dei parser per grammatiche \textbf{LL(k)} che possono essere facilmente implementati a mano.
 \subsubsection{Top-Down parsing}
+\begin{definition}[Top-Down parsing]
+Il \textbf{parsing top-down} costruisce il parse tree partendo dalla radice verso le foglie.
+Per farlo, opera su una stringa $\mathcal{I}$, il cui valore iniziale è $S$:
+\begin{enumerate}
+    \item Individua un simbolo non-terminale $A$ all'interno di $\mathcal{I}$ t.c. $\exists A \rightarrow \alpha \in P$;
+    \item Sostituisce $A$ con $\alpha$;
+    \item Confronta i simboli terminali ottenuti con i token in input, se coincidono avanza nell'analisi della stringa di input, altrimenti fa backtracking;
+    \item Ripete finché $\mathcal{I}$ non è composta da soli terminali, a quel punto il parsing termina con successo se $\mathcal{I}$ equivale all'input.
+\end{enumerate}
+\end{definition}
+
 \end{document}
