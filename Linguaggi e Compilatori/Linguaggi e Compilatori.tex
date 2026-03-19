@@ -352,5 +352,126 @@ Per farlo, opera su una stringa $\mathcal{I}$, il cui valore iniziale è $S$:
     \item Ripete finché $\mathcal{I}$ non è composta da soli terminali, a quel punto il parsing termina con successo se $\mathcal{I}$ equivale all'input.
 \end{enumerate}
 \end{definition}
+\begin{definition}[Predictive parsing]
+Il \textbf{predictive parsing} è un tipo di parsing top-down applicabile quando il lookahead è sufficiente a determinare in maniera univoca quale produzione scegliere per espandere il parse tree.\\
+Più precisamente, definito $\forall$ stringa $\alpha$, $First(\alpha) = \{u \in T \mid \exists \beta \ \alpha \xRightarrow{*} u\beta\}$, il predictive parsing è possibile se per ogni coppia $A \rightarrow \beta$ e $A \rightarrow \gamma$ si ha che $First(\beta) \cap First(\gamma) = \emptyset$.
+\end{definition}
+\noindent Nel pratico, dati un lookahead $t$ e un nodo non-terminale $A$ nel parse tree in costruzione, il predictive parsing opera come segue:
+\begin{enumerate}
+    \item Se esiste $A \rightarrow \alpha$ t.c. $t \in First(\alpha)$, il nodo $A$ viene espanso con $\alpha$;
+    \item Altrimenti, se $A \rightarrow \epsilon \in P$, il nodo $A$ viene espanso con $\epsilon$;
+    \item Altrimenti, \textbf{parsing error}.
+\end{enumerate} 
+\textbf{Esempio:}
+\begin{center}
+\begin{tabular}{rll}
+    $stmt$ & $\to$ & \textbf{expr} ; \\
+           & $|$   & \textbf{if} ( \textbf{expr} ) $stmt$ \\
+           & $|$   & \textbf{for} ( $optexpr$ ; $optexpr$ ; $optexpr$ ) $stmt$ \\
+           & $|$   & \textbf{other} \\
+    $optexpr$ & $\to$ & $\epsilon$ \\
+           & $|$   & \textbf{expr} \\
+\end{tabular}
+\end{center}
+Calcoliamo ora tutti i $First()$:
+\begin{itemize}
+    \item $First$(\textbf{expr} ;) = \textbf{expr}
+    \item $First$(\textbf{if} ( \textbf{expr} ) $stmt$) = \textbf{if}
+    \item $First$(\textbf{for} ( $optexpr$ ; $optexpr$ ; $optexpr$ ) $stmt$) = \textbf{for}
+    \item $First$(\textbf{other}) = \textbf{other}
+    \item $First$(\textbf{expr}) = \textbf{expr}
+\end{itemize}
+Concludiamo che questa grammatica è adatta al predictive parsing.
 
+\bigskip
+\begin{definition}[Recursive-descent]
+La \textbf{recursive-descent} è una tecnica di implementazione del predictive parsing che si basa sulla \textbf{ricorsione} messa a disposizione da un \textbf{linguaggio ad alto livello}, sostituendo così l'uso di un automa.
+\end{definition}
+\noindent \begin{minipage}{\textwidth}
+In particolare, il recursive-descent prevede che per ogni $A \in N$ si costruisca una \textbf{procedura} \texttt{void A()}:
+\begin{enumerate}
+    \item \texttt{A} stabilisce se esista o meno $A \rightarrow \alpha$ t.c. \texttt{lookahead} $\in First(\alpha)$;
+    \item Se non esiste, restituisce syntax error;
+    \item Se esiste, allora sappiamo che è unica (per ipotesi, la grammatica si presta al predictive parsing);
+    \item Sia $\alpha = X_1 \dots X_k$, per ogni $X_i$:
+    \begin{itemize}
+        \item $X_i \in T$: se è un match col \texttt{lookahead} corrente, allora \texttt{lookahead++}, altrimenti syntax error;
+        \item $X_i \in N$: la corrispondente procedura \texttt{void Xi()} viene invocata.
+    \end{itemize}
+\end{enumerate}
+Il parser inizierà invocando \texttt{void S()}.
+\end{minipage}\\
+
+\smallskip
+\noindent \textbf{Esempio:}
+\begin{center}
+\begin{tabular}{rll}
+    $stmt$ & $\to$ & \textbf{expr} ; \\
+           & $|$   & \textbf{if} ( \textbf{expr} ) $stmt$ \\
+           & $|$   & \textbf{for} ( $optexpr$ ; $optexpr$ ; $optexpr$ ) $stmt$ \\
+           & $|$   & \textbf{other} \\
+    $optexpr$ & $\to$ & $\epsilon$ \\
+           & $|$   & \textbf{expr} \\
+\end{tabular}
+\end{center}
+\begin{code}[language=C, deletekeywords={if, for}]
+void stmt() {
+    switch(lookahead) {
+        case expr:
+            match(expr); match(';'); 
+            break;
+        case if:
+            match(if); match('('); match(expr); match(')'); stmt();
+            break;
+        case for:
+            match(for); match('('); optexpr(); match(';'); optexpr();
+            match(';'); optexpr(); match(')'); stmt();
+            break;
+        case other:
+            match(other);
+            break;
+        default:
+            report("syntax error");
+    }
+}
+
+void optexpr() {
+    if(lookahead == expr) match(expr);
+}
+
+void match(terminal t) {
+    if(lookahead == t) lookahead = nextTerminal;
+    else report("syntax error");
+}
+\end{code}
+In alcuni casi può essere necessario modificare la grammatica per adattarla alla recursive-descent:
+$$expr \rightarrow expr + term \mid expr - term \mid term$$
+$$term \rightarrow 0 \mid \dots \mid 9$$
+Il primo problema in questo caso è che:
+\begin{itemize}
+    \item $First(expr + term) = \{0, \dots, 9\}$
+    \item $First(expr + term) = \{0, \dots, 9\}$
+\end{itemize}
+Ma ciò è facilmente risolvibile mediante \textbf{fattorizzazione}.
+$$expr \rightarrow expr \ rest \mid term$$
+$$rest \rightarrow + term \mid - term$$
+$$term \rightarrow 0 \mid \dots \mid 9$$
+Tuttavia si presenta un secondo problema, dovuto alla ricorsione sinistra:
+\begin{itemize}
+    \item $First(expr \ rest) = \{0, \dots, 9\}$
+    \item $First(team) = \{0, \dots, 9\}$
+\end{itemize}
+\begin{center}
+\begin{tabular}{c @{\hspace{1.5cm}} c}
+    \textbf{Ricorsione sinistra} & \textbf{Soluzione} \\ \midrule
+    $A \rightarrow A\alpha \mid \beta$ & $A \rightarrow \beta R$ \\
+    & $R \rightarrow \alpha R \mid \epsilon$ \\
+\end{tabular}
+\end{center}
+Definiamo $\alpha = rest$ e $\beta = term$ e otteniamo:
+$$expr \rightarrow term \ R$$
+$$R \rightarrow rest \ R \mid \epsilon$$
+$$rest \rightarrow +term \mid -term$$
+$$term \rightarrow 0 \mid \dots \mid 9$$
+\subsubsection{Abstract Syntax Tree}
 \end{document}
