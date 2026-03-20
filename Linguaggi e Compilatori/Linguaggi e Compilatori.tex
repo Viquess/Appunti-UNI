@@ -473,5 +473,10 @@ $$expr \rightarrow term \ R$$
 $$R \rightarrow rest \ R \mid \epsilon$$
 $$rest \rightarrow +term \mid -term$$
 $$term \rightarrow 0 \mid \dots \mid 9$$
-\subsubsection{Abstract Syntax Tree}
+\subsection{Parsing + Traduzione}
+\begin{definition}[Abstract Syntax Tree]
+Un \textbf{Abstract Syntax Tree} è la forma più minimalista per rappresentare, mediante un albero, un'espressione o un qualsiasi costrutto in cui esistano \textbf{operandi} e \textbf{operatori}. 
+\end{definition}
+\noindent In un Abstract Syntax Tree ogni \textbf{nodo interno} è un \textbf{operatore}, i cui \textbf{operandi} sono i \textbf{figli} del nodo stesso (le \textbf{foglie} dell'albero saranno sempre \textbf{operandi}).
+
 \end{document}
